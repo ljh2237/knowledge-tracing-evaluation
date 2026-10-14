@@ -4,16 +4,47 @@
 可在 `evidence/evaluation/acceptance_summary.json` 中逐项核对，未经验证的条目
 一律标注「待真实模型接入」而不填估算值。
 
-## 1. 六项任务对应成果
+## 1. 图片任务对应成果
 
-| 任务 | 对应代码文件 | 测试证据 | 完成状态 |
-| --- | --- | --- | --- |
-| 模型评价指标 | `evaluation/evaluator.py` | `evidence/evaluation/metrics/`；`tests/test_evaluator.py` 18 项；验收「AUC / Accuracy / Log Loss 数值校验」与独立手工计算一致（容差 1e-9） | **已完成**（模拟数据） |
-| 遗忘机制专项测试 | `evaluation/forgetting_test.py` | `evidence/evaluation/forgetting/`；`tests/test_forgetting.py` 28 项；验收「遗忘时间描述性分析」与「固定历史受控时间测试」 | **已完成**（模拟数据 + 合成夹具） |
-| 模型对比测试 | `evaluation/model_compare.py` | `evidence/evaluation/comparison/`；`tests/test_model_compare.py` 15 项；验收「多模型对比测试」 | **已完成**（模拟模型之间） |
-| 推理性能测试 | `evaluation/performance_test.py` | `evidence/evaluation/performance/`；`tests/test_performance.py` 24 项；验收「Mock 模型推理性能测试」 | **已完成**（开发机 + Mock） |
-| 实验结果可视化 | `evaluation/visualizer.py` | `evidence/evaluation/plots/` 八张 PNG；`tests/test_visualizer.py` 19 项；验收「可视化图表生成」 | **已完成** |
-| 报告生成 | `evaluation/report_generator.py` | `evidence/evaluation/reports/evaluation_report.md`、`docs/EVALUATION_TEST_REPORT.md`；`tests/test_report_generator.py` 15 项；验收「自动生成评估报告」 | **已完成** |
+逐项对应任务图片中负责人 B 刘静涵的 7 项任务。
+
+| 图片任务 | 图片指定成果 | 实际对应文件 | 测试证据 | 完成状态 |
+| --- | --- | --- | --- | --- |
+| 1. 评价指标设计 | 指标说明文档 | `docs/EVALUATION_METRICS.md` | 含选型理由、公式、计算方法、人工核对数值与局限分析 | **已完成** |
+| 2. 指标计算程序 | `evaluator.py` | `evaluation/evaluator.py` | `tests/test_evaluator.py` 18 项；验收「AUC / Accuracy / Log Loss 数值校验」与独立手工计算一致（容差 1e-9） | **已完成**（模拟数据） |
+| 3. 遗忘机制测试 | `forgetting_test.py` | `evaluation/forgetting_test.py` | `tests/test_forgetting.py` 28 项；验收「遗忘时间描述性分析」与「固定历史受控时间测试」 | **已完成**（模拟数据 + 合成夹具） |
+| 4. 模型对比测试 | `model_compare.py` | `evaluation/model_compare.py` | `tests/test_model_compare.py` 15 项；验收「多模型对比测试」 | **已完成**（模拟模型之间） |
+| 5. 可视化程序 | `visualizer.py` | `evaluation/visualizer.py` | `tests/test_visualizer.py` 23 项；验收「可视化图表生成」 | **已完成** |
+| 6. 性能测试 | `performance_test.py` | `evaluation/performance_test.py` | `tests/test_performance.py` 24 项；验收「Mock 模型推理性能测试」 | **已完成**（开发机 + Mock） |
+| 7. 测试报告 | `report_generator.py` | `evaluation/report_generator.py` | `tests/test_report_generator.py` 15 项；验收「自动生成评估报告」 | **已完成** |
+
+### 1.1 图片任务 5 要求的图表逐一核对
+
+| 图片要求 | 实际图表 |
+| --- | --- |
+| AUC 对比图 | `auc_comparison.png`（并附 `accuracy_comparison.png`、`log_loss_comparison.png`、`roc_curves.png`） |
+| **预测分布图** | `prediction_distribution.png`（左：各模型 `y_pred` 分布叠加 + 阈值线；右：按真实标签分组） |
+| 随时间变化的预测曲线 | `forgetting_observed.png`（观察性）+ `forgetting_model_compare.png`（受控固定历史） |
+| 补充（任务四、六配套） | `inference_latency.png`、`throughput_by_batch.png` |
+
+共 **9 张** PNG，全部由 `evaluation/visualizer.py` 生成，DPI 200，模拟数据带 DEMO 水印。
+
+### 1.2 刘静涵任务的验收标准
+
+> 「给定一份符合约定格式的预测结果 CSV，能够直接计算评价指标、生成图表并导出报告。
+> 对于需要真实模型才能运行的实验，程序应明确提示尚未接入模型，而不是生成虚假的实验结论。」
+
+`scripts/acceptance_evaluation.py` 中的「**验收标准：单份预测 CSV 直接出指标+图表+报告**」
+一项专门验证这条标准（类别 `acceptance`）：只给 `evidence/mock_run/predictions.csv`
+一份文件，依次执行 `metrics → plots → report`，断言
+
+- 三个命令退出码均为 0；
+- 指标 JSON 中 `all` 组的 AUC 与 Accuracy 均已算出；
+- 生成 AUC / Accuracy / Log Loss 对比图、ROC 曲线与预测分布图；
+- 无法计算的图表（遗忘、性能）被跳过且**每条都写明原因**；
+- 导出的报告中含模型名、实际 AUC 数值，并明确写出「待真实模型接入」与「未执行推理性能测试」。
+
+实际结果：**通过**。`is_mock=True` 时程序不会给出任何真实模型的精度结论。
 
 ## 2. 实际运行结果摘要
 
@@ -23,13 +54,13 @@
 
 | 项目 | 数量 |
 | --- | ---: |
-| pytest 用例总数 | 243 |
-| 通过 | 243 |
+| pytest 用例总数 | 247 |
+| 通过 | 247 |
 | 失败 / 错误 / 跳过 | 0 / 0 / 0 |
 | 其中负责人 A 原有用例 | 93（全部通过） |
-| 其中刘静涵新增用例 | 150 |
+| 其中刘静涵新增用例 | 154 |
 | `ruff check .` | 全部通过 |
-| 集成验收检查项 | 17 项全部通过（含 8 项边界与异常检查） |
+| 集成验收检查项 | 18 项全部通过（含 8 项边界与异常检查、1 项验收标准检查） |
 
 ### 2.2 模型评价指标（`evidence/mock_run` 与 `evidence/plugin_run`，288 条预测）
 
@@ -90,9 +121,10 @@ pandas 2.2.3 / NumPy 1.26.4 / scikit-learn 1.6.1，计时 `time.perf_counter`。
 
 ### 2.6 可视化
 
-八张图表全部生成，无跳过项：`auc_comparison.png`、`accuracy_comparison.png`、
-`log_loss_comparison.png`、`roc_curves.png`、`forgetting_observed.png`、
-`forgetting_model_compare.png`、`inference_latency.png`、`throughput_by_batch.png`。
+九张图表全部生成，无跳过项：`auc_comparison.png`、`accuracy_comparison.png`、
+`log_loss_comparison.png`、`roc_curves.png`、`prediction_distribution.png`、
+`forgetting_observed.png`、`forgetting_model_compare.png`、`inference_latency.png`、
+`throughput_by_batch.png`。
 DPI 200，标签语言 `zh`（本机存在 Microsoft YaHei），全部带 `DEMO · SYNTHETIC DATA` 水印。
 
 ### 2.7 报告
@@ -117,7 +149,8 @@ DPI 200，标签语言 `zh`（本机存在 Microsoft YaHei），全部带 `DEMO 
 | `evaluation/report_generator.py` | Markdown 报告生成 |
 | `evaluation/synthetic_time_model.py` | 明确标注的合成时间敏感夹具（非真实模型） |
 | `scripts/acceptance_evaluation.py` | 评估模块集成验收（17 项检查） |
-| `tests/test_evaluator.py` 等 7 个测试文件 | 150 项新增自动化测试 |
+| `tests/test_evaluator.py` 等 7 个测试文件 | 154 项新增自动化测试 |
+| `docs/EVALUATION_METRICS.md` | 评价指标说明文档（图片任务 1 的成果） |
 | `docs/EVALUATION_INTERFACE.md`、`docs/EVALUATION_GUIDE.md`、`docs/EVALUATION_DELIVERY_CHECKLIST.md` | 接口、使用与交付文档 |
 | `requirements-lock-evaluation.txt` | 评估模块新增依赖的精确版本 |
 | `scripts/package_evaluation_release.py` | 生成本次集成交付包 |
@@ -147,7 +180,7 @@ DPI 200，标签语言 `zh`（本机存在 Microsoft YaHei），全部带 `DEMO 
 | `python main.py` 正常运行 | 通过（12 位学生、288 条预测，退出码 0） |
 | `predictions.csv` 列定义不变 | 通过（18 列与 `pipeline.RESULT_COLUMNS` 完全一致） |
 | 原有自动化测试全部通过 | 通过（93/93） |
-| 新增自动化测试全部通过 | 通过（150/150） |
+| 新增自动化测试全部通过 | 通过（154/154） |
 | `ruff check .` | 通过 |
 | 评估程序可独立运行 | 通过（`evaluate.py` 七个命令，含从其他工作目录调用） |
 | `evidence/` 原有内容未被破坏 | 通过（`tests/test_evaluation_cli.py::test_evaluation_does_not_touch_ruikaining_evidence` 比对运行前后全部文件的 mtime） |

@@ -77,6 +77,12 @@ _LABELS: dict[str, dict[str, str]] = {
         "y_logloss": "Log Loss（越低越好）",
         "y_prob_observed": "平均预测概率",
         "y_prob_controlled": "平均预测概率",
+        "distribution_title": "预测概率分布（各模型对比）",
+        "distribution_by_label_title": "预测概率分布（按真实标签分组）",
+        "x_y_pred": "预测答对概率 y_pred",
+        "y_density": "概率密度",
+        "label_correct": "真实答对",
+        "label_wrong": "真实答错",
         "y_latency": "延迟（毫秒）",
         "y_latency_per_sample": "单样本延迟（毫秒）",
         "y_throughput": "吞吐量（样本/秒）",
@@ -110,6 +116,12 @@ _LABELS: dict[str, dict[str, str]] = {
         "y_logloss": "Log Loss (lower is better)",
         "y_prob_observed": "Mean predicted probability",
         "y_prob_controlled": "Mean predicted probability",
+        "distribution_title": "Predicted probability distribution by model",
+        "distribution_by_label_title": "Predicted probability distribution by true label",
+        "x_y_pred": "Predicted probability y_pred",
+        "y_density": "Density",
+        "label_correct": "Correct",
+        "label_wrong": "Incorrect",
         "y_latency": "Latency (ms)",
         "y_latency_per_sample": "Per-sample latency (ms)",
         "y_throughput": "Throughput (samples/s)",
@@ -189,13 +201,17 @@ class PlotResult:
 
 @dataclass
 class PlotInputs:
-    """绘图所需的全部数据，全部来自对应模块的计算结果。"""
+    """绘图所需的全部数据，全部来自对应模块的计算结果。
+
+    ``prediction_sources`` 是逐样本的原始预测，ROC 曲线与预测分布图都由它计算，
+    因此必须直接来自 ``predictions.csv`` 而不是汇总结果。
+    """
 
     metrics: dict | None = None
     forgetting: dict | None = None
     comparison: dict | None = None
     performance: dict | None = None
-    roc_sources: Sequence[PredictionData] = field(default_factory=tuple)
+    prediction_sources: Sequence[PredictionData] = field(default_factory=tuple)
 
 
 def _skip(name: str, source: str, reason: str) -> PlotResult:
@@ -330,6 +346,62 @@ def plot_roc_curves(sources: Sequence[PredictionData], output_path: Path) -> Plo
                       xycoords="axes fraction", fontsize=9, color="#B23A48", va="top")
     _save(figure, output_path, demo)
     return PlotResult("roc_curve", output_path.name, "created", None, source, demo)
+
+
+def plot_prediction_distribution(
+    sources: Sequence[PredictionData], output_path: Path, *, threshold: float = 0.5
+) -> PlotResult:
+    """绘制预测概率分布图。
+
+    左图：各模型 ``y_pred`` 的概率分布叠加对比，并标出分类阈值。
+    右图：第一个模型按真实标签分组的 ``y_pred`` 分布，用于观察模型是否把
+    答对与答错的样本分开——两组分布重叠越多，说明区分能力越弱。
+    """
+    source = "predictions.csv"
+    if not sources:
+        return _skip("prediction_distribution", source, "未提供预测文件，无法绘制预测分布图")
+    bins = np.linspace(0.0, 1.0, 21)
+    figure, (left, right) = plt.subplots(1, 2, figsize=FIGURE_SIZE_DOUBLE)
+    demo = any(bool(item.is_mock) for item in sources)
+
+    for index, data in enumerate(sources):
+        probabilities = data.frame["y_pred"].to_numpy(dtype=float)
+        left.hist(
+            probabilities, bins=bins, density=True, histtype="stepfilled", alpha=0.45,
+            color=PALETTE[index % len(PALETTE)], edgecolor=PALETTE[index % len(PALETTE)],
+            linewidth=1.4, label=f"{data.label}（n={data.sample_count}）",
+        )
+    left.axvline(threshold, color="#B23A48", linestyle="--", linewidth=1.4)
+    # 标注放在坐标区底部，避免与上方的图例文字重叠。
+    left.annotate(
+        f"threshold={threshold:g}", xy=(threshold, 0.0), xycoords=("data", "axes fraction"),
+        xytext=(4, 4), textcoords="offset points", fontsize=9, color="#B23A48", va="bottom",
+    )
+    left.set_xlim(0.0, 1.0)
+    left.set_xlabel(T("x_y_pred"))
+    left.set_ylabel(T("y_density"))
+    left.set_title(T("distribution_title"))
+    left.legend(loc="upper center")
+
+    primary = sources[0]
+    for label_value, colour, name_key in ((1, PALETTE[2], "label_correct"), (0, PALETTE[3], "label_wrong")):
+        subset = primary.frame.loc[primary.frame["y_true"] == label_value, "y_pred"]
+        if subset.empty:
+            continue
+        right.hist(
+            subset.to_numpy(dtype=float), bins=bins, density=True, histtype="stepfilled",
+            alpha=0.45, color=colour, edgecolor=colour, linewidth=1.4,
+            label=f"{T(name_key)}（n={len(subset)}）",
+        )
+    right.axvline(threshold, color="#B23A48", linestyle="--", linewidth=1.4)
+    right.set_xlim(0.0, 1.0)
+    right.set_xlabel(T("x_y_pred"))
+    right.set_ylabel(T("y_density"))
+    right.set_title(f"{T('distribution_by_label_title')} — {primary.label}")
+    right.legend(loc="upper center")
+
+    _save(figure, output_path, demo)
+    return PlotResult("prediction_distribution", output_path.name, "created", None, source, demo)
 
 
 def plot_time_response(bucket_rows: Sequence[dict], output_path: Path) -> PlotResult:
@@ -485,7 +557,10 @@ def generate_plots(
             title_key=title, y_key=y_key, source="metrics/metrics.json", digits=4,
         ))
 
-    results.append(plot_roc_curves(inputs.roc_sources, plots_dir / "roc_curves.png"))
+    results.append(plot_roc_curves(inputs.prediction_sources, plots_dir / "roc_curves.png"))
+    results.append(plot_prediction_distribution(
+        inputs.prediction_sources, plots_dir / "prediction_distribution.png"
+    ))
 
     descriptive = (inputs.forgetting or {}).get("descriptive") or {}
     if descriptive.get("available"):
@@ -541,5 +616,5 @@ def load_artifacts(evaluation_dir: str | Path) -> dict[str, dict | None]:
 def require_plot_inputs(inputs: PlotInputs) -> None:
     """在没有提供任何绘图数据时给出明确错误，而不是静默生成空目录。"""
     if not any((inputs.metrics, inputs.forgetting, inputs.comparison,
-                inputs.performance, inputs.roc_sources)):
+                inputs.performance, inputs.prediction_sources)):
         raise EvaluationError("没有可供绘图的数据，请先运行 metrics / forgetting / performance")

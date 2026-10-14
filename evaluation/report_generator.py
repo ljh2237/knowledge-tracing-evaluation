@@ -35,6 +35,7 @@ PLOT_TITLES = {
     "metric_accuracy": "Accuracy 对比柱状图",
     "metric_log_loss": "Log Loss 对比柱状图",
     "roc_curve": "ROC 曲线",
+    "prediction_distribution": "预测分布图",
     "forgetting_observed": "遗忘时间响应曲线（观察性）",
     "forgetting_model_compare": "不同模型的时间响应对比图",
     "latency": "推理延迟对比图",

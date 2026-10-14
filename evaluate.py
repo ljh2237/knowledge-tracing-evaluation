@@ -356,7 +356,7 @@ def _plot_inputs(evaluation_dir: Path, predictions: Sequence[str | Path]) -> Plo
     return PlotInputs(
         metrics=artifacts["metrics"], forgetting=artifacts["forgetting"],
         comparison=artifacts["comparison"], performance=artifacts["performance"],
-        roc_sources=tuple(sources),
+        prediction_sources=tuple(sources),
     )
 
 

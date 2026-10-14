@@ -49,6 +49,10 @@
 
 ## 2. 指标定义
 
+指标的选择理由、公式推导、适用条件与局限见 **`docs/EVALUATION_METRICS.md`**；
+下表只给出计算口径。
+
+
 | 指标 | 定义 | 实现 |
 | --- | --- | --- |
 | ROC-AUC | 正样本得分高于负样本的概率；并列计 0.5 | `sklearn.metrics.roc_auc_score` |
@@ -205,13 +209,16 @@ CPU 逻辑核数、pandas / NumPy / scikit-learn 版本、计时函数）、`set
 
 ### 6.5 `plots/`
 
-八张 PNG（DPI 200）与 `plots_manifest.json`：
+九张 PNG（DPI 200）与 `plots_manifest.json`：
 
 ```text
 auc_comparison.png, accuracy_comparison.png, log_loss_comparison.png, roc_curves.png,
-forgetting_observed.png, forgetting_model_compare.png,
+prediction_distribution.png, forgetting_observed.png, forgetting_model_compare.png,
 inference_latency.png, throughput_by_batch.png
 ```
+
+其中 `prediction_distribution.png` 为双面板预测分布图：左侧叠加各模型的 `y_pred`
+分布并标出分类阈值，右侧按真实标签分组展示（两组分布重叠越多说明区分能力越弱）。
 
 清单记录每张图的 `status`（`created` / `skipped`）、`reason`、`source` 与
 `demo_watermark`。只要数据来自 `is_mock=True` 的模型，图中就有

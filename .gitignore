@@ -1,3 +1,4 @@
+# 虚拟环境与缓存（负责人 A 原有条目）
 .venv/
 __pycache__/
 *.pyc
@@ -9,3 +10,15 @@ data/*.csv
 data/*.json
 dist/
 *.egg-info/
+
+# 刘静涵评估模块补充：IDE 配置、操作系统临时文件与打包产物
+.idea/
+.vscode/
+.mypy_cache/
+*.zip
+*.zip.sha256
+.DS_Store
+Thumbs.db
+
+# 说明：evidence/ 与 evidence/evaluation/ 是验收证据，qa/ 是测试日志，
+# 都必须纳入版本控制，因此不在此处忽略；只有 outputs/ 是可重新生成的运行结果。

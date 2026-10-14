@@ -17,6 +17,7 @@ from evaluation.visualizer import (
     load_artifacts,
     plot_metric_comparison,
     plot_model_time_response,
+    plot_prediction_distribution,
     plot_roc_curves,
     plot_throughput,
     plot_time_response,
@@ -120,6 +121,47 @@ def test_roc_curves_skipped_without_sources(tmp_path):
     assert "未提供预测文件" in result.reason
 
 
+def test_prediction_distribution_plot_is_created(tmp_path):
+    labels, probabilities = [0, 0, 1, 1], [0.1, 0.2, 0.8, 0.9]
+    first = load_predictions(prediction_file(tmp_path / "a.csv", labels, probabilities, label="a"))
+    second = load_predictions(
+        prediction_file(tmp_path / "b.csv", labels, [0.4, 0.3, 0.6, 0.7], label="b")
+    )
+    output = tmp_path / "dist.png"
+    result = plot_prediction_distribution([first, second], output)
+    assert result.status == "created"
+    assert result.demo is True
+    assert png_size(output)[0] > 600  # 双面板图，宽度应明显大于单面板
+
+
+def test_prediction_distribution_handles_single_class_labels(tmp_path):
+    """某一类标签缺失时不应报错，只跳过对应的一组直方图。"""
+    data = load_predictions(prediction_file(tmp_path / "s.csv", [1, 1, 1], [0.2, 0.6, 0.9]))
+    output = tmp_path / "dist.png"
+    assert plot_prediction_distribution([data], output).status == "created"
+    assert png_size(output)[0] > 600
+
+
+def test_prediction_distribution_skipped_without_sources(tmp_path):
+    result = plot_prediction_distribution([], tmp_path / "dist.png")
+    assert result.status == "skipped"
+    assert "未提供预测文件" in result.reason
+
+
+def test_prediction_distribution_does_not_hardcode_values(tmp_path):
+    """不同输入必须产出不同像素，证明分布来自数据。"""
+    labels = [0, 0, 1, 1]
+    digests = []
+    for index, probabilities in enumerate(([0.1, 0.2, 0.8, 0.9], [0.45, 0.5, 0.55, 0.6])):
+        data = load_predictions(
+            prediction_file(tmp_path / f"d{index}.csv", labels, probabilities, label=f"m{index}")
+        )
+        output = tmp_path / f"dist{index}.png"
+        plot_prediction_distribution([data], output)
+        digests.append(np.frombuffer(output.read_bytes(), dtype=np.uint8).sum())
+    assert digests[0] != digests[1]
+
+
 def test_time_response_plot_uses_bucket_rows(tmp_path):
     rows = [
         {"bucket": "[0s, 1m)", "mean_y_pred": 0.6, "std_y_pred": 0.05, "sample_count": 12,
@@ -165,7 +207,7 @@ def test_throughput_plot_skipped_without_rows(tmp_path):
     assert plot_throughput([], tmp_path / "tp.png").status == "skipped"
 
 
-def test_generate_plots_creates_all_eight_and_records_manifest(tmp_path):
+def test_generate_plots_creates_all_nine_and_records_manifest(tmp_path):
     good = load_predictions(prediction_file(
         tmp_path / "good.csv", [0, 0, 1, 1], [0.1, 0.2, 0.8, 0.9], label="alpha"
     ))
@@ -194,10 +236,10 @@ def test_generate_plots_creates_all_eight_and_records_manifest(tmp_path):
              "throughput_samples_per_second": 500.0, "is_mock": True}
             for size in (1, 8)
         ]},
-        roc_sources=(good, other),
+        prediction_sources=(good, other),
     )
     payload = generate_plots(inputs, tmp_path / "out", overwrite=True)
-    assert len(payload["created"]) == 8
+    assert len(payload["created"]) == 9
     assert payload["skipped"] == []
     manifest = json.loads(
         (tmp_path / "out" / "plots" / "plots_manifest.json").read_text(encoding="utf-8")
@@ -210,7 +252,7 @@ def test_generate_plots_creates_all_eight_and_records_manifest(tmp_path):
 def test_generate_plots_skips_everything_without_data(tmp_path):
     payload = generate_plots(PlotInputs(), tmp_path / "out", overwrite=True)
     assert payload["created"] == []
-    assert len(payload["skipped"]) == 8
+    assert len(payload["skipped"]) == 9
     assert all(item["reason"] for item in payload["skipped"])
 
 

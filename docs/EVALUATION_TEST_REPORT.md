@@ -1,6 +1,6 @@
 # 鸿蒙智学 · 知识追踪模型评估报告
 
-评估模块版本 **1.0.0**，报告生成时间（UTC）**2026-10-13T16:52:12.366344+00:00**。本报告由 `evaluation/report_generator.py` 从实际运行产物自动生成，所有数值均可追溯到对应模块输出的 JSON / CSV 文件，没有人手工填入的实验数据。
+评估模块版本 **1.0.0**，报告生成时间（UTC）**2026-10-14T09:13:35.710032+00:00**。本报告由 `evaluation/report_generator.py` 从实际运行产物自动生成，所有数值均可追溯到对应模块输出的 JSON / CSV 文件，没有人手工填入的实验数据。
 
 ## 1. 测试任务概述
 
@@ -169,10 +169,10 @@
 
 | 批量大小 | 批次数 | 样本数 | 平均批次延迟(ms) | P50(ms) | P95(ms) | 单样本平均(ms) | 吞吐量(样本/秒) |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 | 768 | 768 | 0.010 | 0.009 | 0.011 | 0.010 | 97613.1 |
-| 8 | 96 | 768 | 0.060 | 0.059 | 0.075 | 0.007 | 133530.4 |
-| 32 | 24 | 768 | 0.238 | 0.238 | 0.257 | 0.007 | 134524.4 |
-| 64 | 12 | 768 | 0.491 | 0.491 | 0.514 | 0.008 | 130421.5 |
+| 1 | 768 | 768 | 0.010 | 0.009 | 0.012 | 0.010 | 96278.0 |
+| 8 | 96 | 768 | 0.064 | 0.062 | 0.080 | 0.008 | 124049.0 |
+| 32 | 24 | 768 | 0.250 | 0.246 | 0.286 | 0.008 | 127795.5 |
+| 64 | 12 | 768 | 0.522 | 0.500 | 0.616 | 0.008 | 122638.6 |
 
 > 计时口径：批次延迟为单次 adapter.predict(batch) 的墙钟耗时（time.perf_counter）；单样本延迟为批次延迟除以该批次样本数；P50/P95 对批次延迟序列取线性插值百分位；吞吐量为被计时样本数除以被计时的总耗时。
 
@@ -207,6 +207,12 @@
 ![ROC 曲线](../evidence/evaluation/plots/roc_curves.png)
 
 数据来源：`metrics/metrics.json + predictions.csv`；模拟数据水印：有
+
+### 预测分布图
+
+![预测分布图](../evidence/evaluation/plots/prediction_distribution.png)
+
+数据来源：`predictions.csv`；模拟数据水印：有
 
 ### 遗忘时间响应曲线（观察性）
 
@@ -255,8 +261,8 @@
 
 | 项目 | 数量 |
 | --- | ---: |
-| 用例总数 | 243 |
-| 通过 | 243 |
+| 用例总数 | 247 |
+| 通过 | 247 |
 | 失败 | 0 |
 | 错误 | 0 |
 | 跳过 | 0 |
@@ -285,7 +291,7 @@ python evaluate.py all --output-dir outputs/evaluation --overwrite
 
 评估产物目录：
 
-- `C:/Users/Lenovo/Desktop/items/鸿蒙/knowledge_tracing_test/knowledge_tracing_test_鲁凯宁/evidence/evaluation`：`metrics/`、`forgetting/`、`comparison/`、`performance/`、`plots/`、`reports/`。
+- `C:/Users/Lenovo/Desktop/items/鸿蒙/knowledge_tracing_test/交付版本/刘静涵_知识追踪模型评估模块_v1.0.0/knowledge_tracing_test/evidence/evaluation`：`metrics/`、`forgetting/`、`comparison/`、`performance/`、`plots/`、`reports/`。
 - 每个子目录中的 JSON 保留了完整配置与数据指纹，CSV 便于直接查看与二次分析。
 
 

@@ -48,7 +48,7 @@
     {
       "name": "可视化图表生成",
       "category": "evidence",
-      "expected": "八张图表全部生成且分辨率达标",
+      "expected": "九张图表全部生成且分辨率达标",
       "observed": "DPI=200，字体语言 zh",
       "passed": true
     },
@@ -116,14 +116,21 @@
       "passed": true
     },
     {
+      "name": "验收标准：单份预测 CSV 直接出指标+图表+报告",
+      "category": "acceptance",
+      "expected": "退出码 0，含指标、图表与报告且无虚假结论",
+      "observed": "AUC=0.5233；生成 5 张图、跳过 4 张并写明原因",
+      "passed": true
+    },
+    {
       "name": "自动生成评估报告",
       "category": "evidence",
       "expected": "Markdown 报告含全部章节且图片链接有效",
-      "observed": "10890 字符，23 项检查上下文",
+      "observed": "11005 字符，24 项检查上下文",
       "passed": true
     }
   ],
-  "passed": 17,
+  "passed": 18,
   "failed": 0,
   "all_passed": true,
   "data_type": "synthetic_and_handcrafted_fixtures",
@@ -140,11 +147,11 @@
   },
   "fingerprints": {
     "metrics/metrics.csv": "d329c4ef4b57fcc9c57d3c52c8a9a267d97f2186ac1efbb308b13cc733fc46ef",
-    "comparison/model_comparison.json": "471b29caf1b73096d55f3528a4bd6d66514b6ed18576bffaadb7e04151d081c6",
-    "forgetting/forgetting_summary.json": "3a871caf8085dd64263077730034da8d8b2e1bd65bd720f3cf0d74d9e07c782b",
-    "performance/performance.json": "d0c9cde84e1ca302aab077d0a7385365ebd58f93b784bc513fc0a17ac4f5a8ec",
-    "plots/plots_manifest.json": "1f39068c0b640c8f896dc7f530a212e0951a61b36aa97bbc5abd163e27c44507",
-    "reports/evaluation_report.md": "9f66dc3a0f31e7734afae56d302091ef9d988d5fb252b9ae3818d16644d35767",
-    "junit.xml": "e3fddde84d734b492225abcb022c383ad93f928c88fd05875843e338766db712"
+    "comparison/model_comparison.json": "45086dcff892646ab8e29f8e381dcf0bdf1d829b14c65995aa334526a1261ca7",
+    "forgetting/forgetting_summary.json": "6589dc8d5f7d668c06499415ba8eb64d15ba6e50be9e3df3c352c9332ab54a33",
+    "performance/performance.json": "e5d152de4346e3b7b226d560c7a4ec445078b5a4a96c3588fa900442fb7ae689",
+    "plots/plots_manifest.json": "31908f972ae7b8397efd261049eb7bcdbb9ac4707f3319992a011fda9960ff02",
+    "reports/evaluation_report.md": "7af2d7ad150ebf8f83430470b6c51f0cb6b4e6bfb69dba7dbc633f6d00f2774c",
+    "junit.xml": "322005a54b82baf63d585df26de351ea1849e4eb72db1e48b446b9d2b9c548e6"
   }
 }

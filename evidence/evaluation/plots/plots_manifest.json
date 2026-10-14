@@ -1,6 +1,6 @@
 {
   "evaluation_version": "1.0.0",
-  "generated_at_utc": "2026-10-13T16:51:02.656346+00:00",
+  "generated_at_utc": "2026-10-14T09:12:16.603444+00:00",
   "font_language": "zh",
   "dpi": 200,
   "plots": [
@@ -34,6 +34,14 @@
       "status": "created",
       "reason": null,
       "source": "metrics/metrics.json + predictions.csv",
+      "demo_watermark": true
+    },
+    {
+      "name": "prediction_distribution",
+      "file": "prediction_distribution.png",
+      "status": "created",
+      "reason": null,
+      "source": "predictions.csv",
       "demo_watermark": true
     },
     {
@@ -74,6 +82,7 @@
     "metric_accuracy",
     "metric_log_loss",
     "roc_curve",
+    "prediction_distribution",
     "forgetting_observed",
     "forgetting_model_compare",
     "latency",

@@ -128,11 +128,12 @@ python scripts/acceptance_evaluation.py
 
 | 想知道什么 | 看哪里 |
 | --- | --- |
-| 模型 AUC / Accuracy / Log Loss | `metrics/metrics.csv` |
+| 模型 AUC / Accuracy / Log Loss | `metrics/metrics.csv`；指标定义见 `docs/EVALUATION_METRICS.md` |
 | AUC 为什么是空的 | `metrics/metrics.json` 的 `notes` 与 `auc_status` / `auc_reason` |
 | 冷启动会不会拖后腿 | 同上 CSV 的 `cold_start` / `non_cold_start` 两行 |
 | 时间间隔与预测概率的关系 | `forgetting/interval_buckets.csv` |
 | 模型对时间是否敏感 | `forgetting/forgetting_summary.json` 的 `response` |
+| 预测概率分布是否合理 | `plots/prediction_distribution.png` |
 | 两个模型差多少 | `comparison/model_comparison.md` |
 | 推理快不快 | `performance/performance.csv` |
 | 本次跑了什么、怎么复现 | `evaluation_summary.json` 的 `steps` 与 `reproduce_commands` |

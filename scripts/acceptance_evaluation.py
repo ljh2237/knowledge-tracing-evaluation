@@ -38,7 +38,7 @@ PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
 REQUIRED_PLOTS = (
     "auc_comparison.png", "accuracy_comparison.png", "log_loss_comparison.png",
-    "roc_curves.png", "forgetting_observed.png", "forgetting_model_compare.png",
+    "roc_curves.png", "prediction_distribution.png", "forgetting_observed.png", "forgetting_model_compare.png",
     "inference_latency.png", "throughput_by_batch.png",
 )
 
@@ -319,7 +319,7 @@ def main() -> int:
     demo_watermarks = [item["file"] for item in manifest["plots"] if item["demo_watermark"]]
     if len(demo_watermarks) != len(REQUIRED_PLOTS):
         raise AcceptanceFailure("模拟数据图表必须全部带 DEMO 水印")
-    record("可视化图表生成", "evidence", "八张图表全部生成且分辨率达标",
+    record("可视化图表生成", "evidence", "九张图表全部生成且分辨率达标",
            f"DPI={manifest['dpi']}，字体语言 {manifest['font_language']}", True)
 
     # ------------------------------------------------------------------ 检查 8
@@ -422,6 +422,64 @@ def main() -> int:
     record("原有 main.py 功能不受影响", "regression", "退出码 0 且列定义不变",
            f"{summary['prediction_count']} 条预测，列定义与 v1.0.0 一致", True)
 
+    # ------------------------------------------- 检查 11：刘静涵任务的验收标准
+    # 「给定一份符合约定格式的预测结果 CSV，能够直接计算评价指标、生成图表并导出报告。」
+    single_dir = EVIDENCE / "_single_csv"
+    result, code = command("验收标准·单份 CSV 计算指标", [
+        "evaluate.py", "metrics", "--predictions", "evidence/mock_run/predictions.csv",
+        "--output-dir", str(single_dir), "--overwrite",
+    ])
+    if result.returncode != 0:
+        raise AcceptanceFailure(f"单份 CSV 指标计算失败：{result.stderr}")
+    single_metrics = json.loads(
+        (single_dir / "metrics" / "metrics.json").read_text(encoding="utf-8")
+    )
+    all_row = next(row for row in single_metrics["rows"] if row["group"] == "ALL".lower())
+    if all_row["roc_auc"] is None or all_row["accuracy"] is None:
+        raise AcceptanceFailure("单份 CSV 应能算出完整指标")
+
+    result, code = command("验收标准·单份 CSV 生成图表", [
+        "evaluate.py", "plots", "--evaluation-dir", str(single_dir),
+        "--predictions", "evidence/mock_run/predictions.csv", "--overwrite",
+    ])
+    if result.returncode != 0:
+        raise AcceptanceFailure(f"单份 CSV 图表生成失败：{result.stderr}")
+    single_manifest = json.loads(
+        (single_dir / "plots" / "plots_manifest.json").read_text(encoding="utf-8")
+    )
+    single_created = {item["file"] for item in single_manifest["plots"] if item["status"] == "created"}
+    for required in ("auc_comparison.png", "accuracy_comparison.png", "log_loss_comparison.png",
+                     "roc_curves.png", "prediction_distribution.png"):
+        if required not in single_created:
+            raise AcceptanceFailure(f"单份 CSV 场景缺少图表 {required}")
+    single_skipped = {item["name"]: item["reason"] for item in single_manifest["skipped"]}
+    for name, reason in single_skipped.items():
+        if not reason:
+            raise AcceptanceFailure(f"跳过的图表 {name} 未说明原因")
+
+    result, code = command("验收标准·单份 CSV 导出报告", [
+        "evaluate.py", "report", "--evaluation-dir", str(single_dir),
+        "--output", str(single_dir / "reports" / "single_report.md"), "--overwrite",
+    ])
+    if result.returncode != 0:
+        raise AcceptanceFailure(f"单份 CSV 报告导出失败：{result.stderr}")
+    single_report = (single_dir / "reports" / "single_report.md").read_text(encoding="utf-8")
+    for needle, description in (
+        (all_row["label"], "指标表应包含模型名"),
+        (f"{all_row['roc_auc']:.4f}", "指标表应包含实际 AUC 数值"),
+        ("待真实模型接入", "必须标注尚未接入真实模型"),
+        ("未执行推理性能测试", "未运行的实验必须写明未执行"),
+    ):
+        if needle not in single_report:
+            raise AcceptanceFailure(f"单份 CSV 报告缺少内容（{description}）：{needle}")
+    record(
+        "验收标准：单份预测 CSV 直接出指标+图表+报告", "acceptance",
+        "退出码 0，含指标、图表与报告且无虚假结论",
+        f"AUC={all_row['roc_auc']:.4f}；生成 {len(single_created)} 张图、"
+        f"跳过 {len(single_skipped)} 张并写明原因",
+        True,
+    )
+
     # 写出部分摘要，供报告引用边界检查结果。
     write_summary(checks, complete=False)
     docs_report = ROOT / "docs" / "EVALUATION_TEST_REPORT.md"
@@ -462,8 +520,9 @@ def main() -> int:
     (EVIDENCE / "acceptance.log").write_text("\n\n".join(logs), encoding="utf-8")
     cleanup_negative_outputs()
     print(
-        f"评估模块集成验收通过：{len(checks)} 项检查全部通过；"
-        f"{sum(1 for item in checks if item['category'] == 'boundary')} 项为边界与异常检查。"
+        f"评估模块集成验收通过：{len(checks)} 项检查全部通过"
+        f"（边界与异常 {sum(1 for item in checks if item['category'] == 'boundary')} 项，"
+        f"验收标准 {sum(1 for item in checks if item['category'] == 'acceptance')} 项）。"
     )
     print(f"证据目录：{EVIDENCE}")
     print(f"评估报告：{docs_report}")
@@ -525,7 +584,7 @@ def cleanup_negative_outputs() -> None:
 
     for name in (
         "bad_missing_column.csv", "bad_values.csv", "bad_duplicate_id.csv", "bad_empty.csv",
-        "bad_shorter.csv", "_main_regression", "_order_only",
+        "bad_shorter.csv", "_main_regression", "_order_only", "_single_csv",
     ):
         target = EVIDENCE / name
         if target.is_dir():
