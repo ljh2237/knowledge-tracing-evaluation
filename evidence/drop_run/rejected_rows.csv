@@ -1,0 +1,4 @@
+record_id,student_id,question_id,skill_id,correct,timestamp,response_time_ms,source_row,reason
+sim-002-018,S002,Q03-3,K03,,2026-10-08T12:29:00+08:00,81158,2,correct 必须为 0 或 1
+sim-009-024,S009,Q01-4,K01,1,bad-time,62000,3,"无效时间戳 'bad-time': Unknown datetime string format, unable to parse: bad-time"
+sim-006-021,S006,Q05-1,K05,1,2026-10-16T11:28:00+08:00,-1,4,response_time_ms 必须是有限非负数或留空

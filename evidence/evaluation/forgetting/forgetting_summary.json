@@ -1,0 +1,335 @@
+{
+  "evaluation_version": "1.0.0",
+  "generated_at_utc": "2026-10-13T16:50:56.642929+00:00",
+  "descriptive": {
+    "available": true,
+    "total_samples": 288,
+    "usable_samples": 276,
+    "excluded_samples": 12,
+    "excluded_reason": "缺少有效真实时间间隔（冷启动或仅有 event_order）；这些样本不参与时间分组",
+    "time_source": "timestamp",
+    "threshold": 0.5,
+    "correlations": {
+      "pearson_delta_vs_y_pred": 0.08992697601522345,
+      "spearman_delta_vs_y_pred": 0.03214119793019413,
+      "spearman_delta_vs_y_pred_non_cold_start": 0.03214119793019413
+    },
+    "bucket_rows": [
+      {
+        "bucket": "[1分, 5分)",
+        "bucket_lower_seconds": 60.0,
+        "bucket_upper_seconds": 300.0,
+        "sample_count": 56,
+        "sample_share": 0.2028985507246377,
+        "min_delta_seconds": 120.0,
+        "max_delta_seconds": 120.0,
+        "mean_delta_seconds": 120.0,
+        "median_delta_seconds": 120.0,
+        "mean_y_pred": 0.5110009534116677,
+        "median_y_pred": 0.5,
+        "std_y_pred": 0.09030374977185095,
+        "mean_y_true": 0.42857142857142855,
+        "accuracy": 0.4642857142857143,
+        "label": "mock_history_beta_v1",
+        "model_name": "mock_history_beta_v1",
+        "is_mock": true
+      },
+      {
+        "bucket": "[5分, 1小时)",
+        "bucket_lower_seconds": 300.0,
+        "bucket_upper_seconds": 3600.0,
+        "sample_count": 115,
+        "sample_share": 0.4166666666666667,
+        "min_delta_seconds": 300.0,
+        "max_delta_seconds": 1800.0,
+        "mean_delta_seconds": 1043.4782608695652,
+        "median_delta_seconds": 300.0,
+        "mean_y_pred": 0.4893382704252269,
+        "median_y_pred": 0.5,
+        "std_y_pred": 0.1026012576531493,
+        "mean_y_true": 0.5652173913043478,
+        "accuracy": 0.5652173913043478,
+        "label": "mock_history_beta_v1",
+        "model_name": "mock_history_beta_v1",
+        "is_mock": true
+      },
+      {
+        "bucket": "[1天, 7天)",
+        "bucket_lower_seconds": 86400.0,
+        "bucket_upper_seconds": 604800.0,
+        "sample_count": 105,
+        "sample_share": 0.3804347826086957,
+        "min_delta_seconds": 86400.0,
+        "max_delta_seconds": 259200.0,
+        "mean_delta_seconds": 170331.42857142858,
+        "median_delta_seconds": 86400.0,
+        "mean_y_pred": 0.5173867931010788,
+        "median_y_pred": 0.5,
+        "std_y_pred": 0.11235803128769337,
+        "mean_y_true": 0.5619047619047619,
+        "accuracy": 0.5238095238095238,
+        "label": "mock_history_beta_v1",
+        "model_name": "mock_history_beta_v1",
+        "is_mock": true
+      }
+    ],
+    "model": {
+      "label": "mock_history_beta_v1",
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true,
+      "data_nature": "模拟模型输出（仅用于程序功能验证）"
+    },
+    "caveat": "观察性分析：仅按已有预测结果的时间间隔分组统计，未控制学生、知识点、题目难度与历史长度，因此不能据此断言遗忘的因果效应。仅使用 event_order 的数据不含真实时间，已整体排除，未伪造天数。"
+  },
+  "controlled_models": [
+    {
+      "label": "mock_history_beta_v1",
+      "available": true,
+      "model": {
+        "model_name": "mock_history_beta_v1",
+        "is_mock": true,
+        "data_nature": "模拟模型输出（仅用于程序功能验证）"
+      },
+      "input": {
+        "file": "sample_data.csv",
+        "accepted_rows": 288,
+        "students": 12,
+        "time_source": "timestamp"
+      },
+      "design": {
+        "description": "固定同一学生的历史学习状态、目标题目与知识点，只改变目标时点与最后一次历史作答的时间间隔",
+        "intervals_seconds": [
+          0.0,
+          86400.0,
+          259200.0,
+          604800.0,
+          1209600.0
+        ],
+        "intervals_days": [
+          0.0,
+          1.0,
+          3.0,
+          7.0,
+          14.0
+        ],
+        "repeats": 3,
+        "sampling_seed": 20261013,
+        "candidate_count": 12,
+        "predictions_per_candidate": 15,
+        "total_inference_calls": 180,
+        "history_fixed": true,
+        "causal_order_preserved": true,
+        "unique_record_id_note": "受控请求使用 <原 record_id>#t<间隔秒数>s#r<重复序号> 生成唯一编号，避免同一批次内 record_id 冲突；模型不应依赖 record_id 本身。"
+      },
+      "baseline_interval_seconds": 0.0,
+      "per_interval": [
+        {
+          "interval_seconds": 0.0,
+          "interval_days": 0.0,
+          "interval_label": "0秒",
+          "candidate_count": 12,
+          "observation_count": 36,
+          "mean_probability": 0.5017195767195768,
+          "median_probability": 0.5,
+          "std_probability": 0.06521298173062319,
+          "min_probability": 0.3333333333333333,
+          "max_probability": 0.6,
+          "max_repeat_spread": 0.0,
+          "change_vs_baseline": 0.0
+        },
+        {
+          "interval_seconds": 86400.0,
+          "interval_days": 1.0,
+          "interval_label": "1天",
+          "candidate_count": 12,
+          "observation_count": 36,
+          "mean_probability": 0.5017195767195768,
+          "median_probability": 0.5,
+          "std_probability": 0.06521298173062319,
+          "min_probability": 0.3333333333333333,
+          "max_probability": 0.6,
+          "max_repeat_spread": 0.0,
+          "change_vs_baseline": 0.0
+        },
+        {
+          "interval_seconds": 259200.0,
+          "interval_days": 3.0,
+          "interval_label": "3天",
+          "candidate_count": 12,
+          "observation_count": 36,
+          "mean_probability": 0.5017195767195768,
+          "median_probability": 0.5,
+          "std_probability": 0.06521298173062319,
+          "min_probability": 0.3333333333333333,
+          "max_probability": 0.6,
+          "max_repeat_spread": 0.0,
+          "change_vs_baseline": 0.0
+        },
+        {
+          "interval_seconds": 604800.0,
+          "interval_days": 7.0,
+          "interval_label": "7天",
+          "candidate_count": 12,
+          "observation_count": 36,
+          "mean_probability": 0.5017195767195768,
+          "median_probability": 0.5,
+          "std_probability": 0.06521298173062319,
+          "min_probability": 0.3333333333333333,
+          "max_probability": 0.6,
+          "max_repeat_spread": 0.0,
+          "change_vs_baseline": 0.0
+        },
+        {
+          "interval_seconds": 1209600.0,
+          "interval_days": 14.0,
+          "interval_label": "14天",
+          "candidate_count": 12,
+          "observation_count": 36,
+          "mean_probability": 0.5017195767195768,
+          "median_probability": 0.5,
+          "std_probability": 0.06521298173062319,
+          "min_probability": 0.3333333333333333,
+          "max_probability": 0.6,
+          "max_repeat_spread": 0.0,
+          "change_vs_baseline": 0.0
+        }
+      ],
+      "response": {
+        "detected": false,
+        "tolerance": 1e-09,
+        "max_abs_change_vs_baseline": 0.0,
+        "monotonic_decreasing": false,
+        "spearman_interval_vs_mean_probability": null
+      },
+      "caveats": [
+        "受控性说明：同一候选样本的历史学习状态、目标题目与知识点完全固定，仅改变目标时点与最后一次历史作答之间的时间间隔；目标时点始终不早于历史答案可见时点，因果顺序成立。该测试检验的是「模型是否对时间间隔作出响应」，不是「模型在真实数据上的遗忘效果」。",
+        "在 12 个候选样本、5 个时间间隔、3 次重复下，预测概率相对基线的最大变化为 0，未检测到时间响应。这是合理结果：负责人 A 的 MockModel 没有遗忘机制，本测试不得据此制造下降曲线。",
+        "模型声明 is_mock=True，本次结果只能证明受控测试程序可运行，不能证明任何遗忘机制的有效性。"
+      ]
+    },
+    {
+      "label": "synthetic_fixture",
+      "available": true,
+      "model": {
+        "model_name": "synthetic_time_sensitive_fixture_v1",
+        "is_mock": true,
+        "data_nature": "模拟模型输出（仅用于程序功能验证）"
+      },
+      "input": {
+        "file": "sample_data.csv",
+        "accepted_rows": 288,
+        "students": 12,
+        "time_source": "timestamp"
+      },
+      "design": {
+        "description": "固定同一学生的历史学习状态、目标题目与知识点，只改变目标时点与最后一次历史作答的时间间隔",
+        "intervals_seconds": [
+          0.0,
+          86400.0,
+          259200.0,
+          604800.0,
+          1209600.0
+        ],
+        "intervals_days": [
+          0.0,
+          1.0,
+          3.0,
+          7.0,
+          14.0
+        ],
+        "repeats": 3,
+        "sampling_seed": 20261013,
+        "candidate_count": 12,
+        "predictions_per_candidate": 15,
+        "total_inference_calls": 180,
+        "history_fixed": true,
+        "causal_order_preserved": true,
+        "unique_record_id_note": "受控请求使用 <原 record_id>#t<间隔秒数>s#r<重复序号> 生成唯一编号，避免同一批次内 record_id 冲突；模型不应依赖 record_id 本身。"
+      },
+      "baseline_interval_seconds": 0.0,
+      "per_interval": [
+        {
+          "interval_seconds": 0.0,
+          "interval_days": 0.0,
+          "interval_label": "0秒",
+          "candidate_count": 12,
+          "observation_count": 36,
+          "mean_probability": 0.5017195767195768,
+          "median_probability": 0.5,
+          "std_probability": 0.06521298173062319,
+          "min_probability": 0.3333333333333333,
+          "max_probability": 0.6,
+          "max_repeat_spread": 0.0,
+          "change_vs_baseline": 0.0
+        },
+        {
+          "interval_seconds": 86400.0,
+          "interval_days": 1.0,
+          "interval_label": "1天",
+          "candidate_count": 12,
+          "observation_count": 36,
+          "mean_probability": 0.3683214056070643,
+          "median_probability": 0.36710964037342103,
+          "std_probability": 0.04595481152061421,
+          "min_probability": 0.24966162542030212,
+          "max_probability": 0.43757844934529233,
+          "max_repeat_spread": 0.0,
+          "change_vs_baseline": -0.1333981711125125
+        },
+        {
+          "interval_seconds": 259200.0,
+          "interval_days": 3.0,
+          "interval_label": "3天",
+          "candidate_count": 12,
+          "observation_count": 36,
+          "mean_probability": 0.20807373190669262,
+          "median_probability": 0.20747198710001996,
+          "std_probability": 0.022820484039641178,
+          "min_probability": 0.14914902891482737,
+          "max_probability": 0.24246576201113546,
+          "max_repeat_spread": 0.0,
+          "change_vs_baseline": -0.29364584481288414
+        },
+        {
+          "interval_seconds": 604800.0,
+          "interval_days": 7.0,
+          "interval_label": "7天",
+          "candidate_count": 12,
+          "observation_count": 36,
+          "mean_probability": 0.08898050236710983,
+          "median_probability": 0.08883211392471674,
+          "std_probability": 0.005627462079853401,
+          "min_probability": 0.07444984950815499,
+          "max_probability": 0.09746147257465379,
+          "max_repeat_spread": 0.0,
+          "change_vs_baseline": -0.41273907435246693
+        },
+        {
+          "interval_seconds": 1209600.0,
+          "interval_days": 14.0,
+          "interval_label": "14天",
+          "candidate_count": 12,
+          "observation_count": 36,
+          "mean_probability": 0.053363767352805104,
+          "median_probability": 0.05335096238191596,
+          "std_probability": 0.00048561388575975696,
+          "min_probability": 0.052109865203428564,
+          "max_probability": 0.05409562068900839,
+          "max_repeat_spread": 0.0,
+          "change_vs_baseline": -0.44835580936677166
+        }
+      ],
+      "response": {
+        "detected": true,
+        "tolerance": 1e-09,
+        "max_abs_change_vs_baseline": 0.44835580936677166,
+        "monotonic_decreasing": true,
+        "spearman_interval_vs_mean_probability": -0.9999999999999999
+      },
+      "caveats": [
+        "受控性说明：同一候选样本的历史学习状态、目标题目与知识点完全固定，仅改变目标时点与最后一次历史作答之间的时间间隔；目标时点始终不早于历史答案可见时点，因果顺序成立。该测试检验的是「模型是否对时间间隔作出响应」，不是「模型在真实数据上的遗忘效果」。",
+        "模型声明 is_mock=True，本次结果只能证明受控测试程序可运行，不能证明任何遗忘机制的有效性。"
+      ]
+    }
+  ]
+}

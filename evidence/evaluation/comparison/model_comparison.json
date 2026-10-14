@@ -1,0 +1,317 @@
+{
+  "evaluation_version": "1.0.0",
+  "generated_at_utc": "2026-10-13T16:50:54.294766+00:00",
+  "configuration": {
+    "threshold": 0.5,
+    "include_cold_start": true,
+    "missing_policy": "strict"
+  },
+  "baseline": {
+    "index": 0,
+    "label": "mock_beta"
+  },
+  "models": [
+    {
+      "label": "mock_beta",
+      "source_file": "evidence/mock_run/predictions.csv",
+      "source_sha256": "c6eed17b93687056f8e604edcb5875e700a2d94d5e4be93774c4e36640a6bca0",
+      "model_name": "mock_history_beta_v1",
+      "model_names": [
+        "mock_history_beta_v1"
+      ],
+      "is_mock": true,
+      "data_nature": "模拟模型输出（仅用于程序功能验证）",
+      "experiment_status": "mock_pipeline_only",
+      "time_source": "timestamp",
+      "sample_count": 288,
+      "positive_count": 153,
+      "negative_count": 135,
+      "positive_rate": 0.53125,
+      "cold_start_count": 12,
+      "has_delta_time": true,
+      "run_summary_available": true,
+      "run_summary_input_file": "sample_data.csv",
+      "run_summary_input_sha256": "2c43f840180ac6d17eb1665692d035935786fb700fb24b3155eefc743345db64",
+      "run_summary_configuration": {
+        "batch_size": 64,
+        "max_history": 256,
+        "threshold": 0.5,
+        "invalid_policy": "error",
+        "timestamp_unit": "iso",
+        "unknown_skill_policy": "error"
+      }
+    },
+    {
+      "label": "constant_plugin",
+      "source_file": "evidence/plugin_run/predictions.csv",
+      "source_sha256": "4954b5fd36bdc4f38e689d3f0e8ab28703976a09930315c97f9c663633adcc90",
+      "model_name": "example_constant_plugin",
+      "model_names": [
+        "example_constant_plugin"
+      ],
+      "is_mock": true,
+      "data_nature": "模拟模型输出（仅用于程序功能验证）",
+      "experiment_status": "mock_pipeline_only",
+      "time_source": "timestamp",
+      "sample_count": 288,
+      "positive_count": 153,
+      "negative_count": 135,
+      "positive_rate": 0.53125,
+      "cold_start_count": 12,
+      "has_delta_time": true,
+      "run_summary_available": true,
+      "run_summary_input_file": "sample_data.csv",
+      "run_summary_input_sha256": "2c43f840180ac6d17eb1665692d035935786fb700fb24b3155eefc743345db64",
+      "run_summary_configuration": {
+        "batch_size": 64,
+        "max_history": 256,
+        "threshold": 0.5,
+        "invalid_policy": "error",
+        "timestamp_unit": "iso",
+        "unknown_skill_policy": "error"
+      }
+    }
+  ],
+  "coverage": {
+    "mock_beta": {
+      "sample_count": 288,
+      "used": 288,
+      "dropped": 0,
+      "dropped_examples": []
+    },
+    "constant_plugin": {
+      "sample_count": 288,
+      "used": 288,
+      "dropped": 0,
+      "dropped_examples": []
+    }
+  },
+  "run_summaries": {
+    "mock_beta": {
+      "available": true,
+      "experiment_status": "mock_pipeline_only",
+      "input_file": "sample_data.csv",
+      "input_sha256": "2c43f840180ac6d17eb1665692d035935786fb700fb24b3155eefc743345db64",
+      "is_mock": true,
+      "configuration": {
+        "batch_size": 64,
+        "max_history": 256,
+        "threshold": 0.5,
+        "invalid_policy": "error",
+        "timestamp_unit": "iso",
+        "unknown_skill_policy": "error"
+      },
+      "model_provenance": {
+        "factory": "mock_model:MockModel",
+        "config_sha256": null,
+        "training_vocab_sha256": null
+      }
+    },
+    "constant_plugin": {
+      "available": true,
+      "experiment_status": "mock_pipeline_only",
+      "input_file": "sample_data.csv",
+      "input_sha256": "2c43f840180ac6d17eb1665692d035935786fb700fb24b3155eefc743345db64",
+      "is_mock": true,
+      "configuration": {
+        "batch_size": 64,
+        "max_history": 256,
+        "threshold": 0.5,
+        "invalid_policy": "error",
+        "timestamp_unit": "iso",
+        "unknown_skill_policy": "error"
+      },
+      "model_provenance": {
+        "factory": "examples.constant_plugin:create_model",
+        "config_sha256": "2b81102e386cca47412a8ea027ea7b6c478f6615163615de16e713d305e76b82",
+        "training_vocab_sha256": "720b281fb66c28f24601a108612b4208abf49b33125794b6cfc7cc6c32ee684f"
+      }
+    }
+  },
+  "aligned_sample_count": 288,
+  "union_sample_count": 288,
+  "common_record_id_samples": [
+    "sim-001-001",
+    "sim-001-002",
+    "sim-001-003",
+    "sim-001-004",
+    "sim-001-005"
+  ],
+  "rows": [
+    {
+      "group": "all",
+      "group_description": "全部有效样本",
+      "label": "mock_beta",
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true,
+      "is_baseline": true,
+      "threshold": 0.5,
+      "sample_count": 288,
+      "positive_count": 153,
+      "negative_count": 135,
+      "positive_rate": 0.53125,
+      "roc_auc": 0.5233357540547082,
+      "auc_status": "computed",
+      "auc_reason": null,
+      "accuracy": 0.5243055555555556,
+      "log_loss": 0.7070472071275782,
+      "brier_score": 0.25635694359192795,
+      "delta_roc_auc": 0.0,
+      "delta_accuracy": 0.0,
+      "delta_log_loss": 0.0,
+      "source_file": "evidence/mock_run/predictions.csv",
+      "source_sha256": "c6eed17b93687056f8e604edcb5875e700a2d94d5e4be93774c4e36640a6bca0",
+      "data_nature": "模拟模型输出（仅用于程序功能验证）",
+      "experiment_status": "mock_pipeline_only"
+    },
+    {
+      "group": "all",
+      "group_description": "全部有效样本",
+      "label": "constant_plugin",
+      "model_name": "example_constant_plugin",
+      "is_mock": true,
+      "is_baseline": false,
+      "threshold": 0.5,
+      "sample_count": 288,
+      "positive_count": 153,
+      "negative_count": 135,
+      "positive_rate": 0.53125,
+      "roc_auc": 0.5,
+      "auc_status": "computed",
+      "auc_reason": null,
+      "accuracy": 0.53125,
+      "log_loss": 0.7008873931916927,
+      "brier_score": 0.25375000000000003,
+      "delta_roc_auc": -0.023335754054708224,
+      "delta_accuracy": 0.00694444444444442,
+      "delta_log_loss": -0.006159813935885494,
+      "source_file": "evidence/plugin_run/predictions.csv",
+      "source_sha256": "4954b5fd36bdc4f38e689d3f0e8ab28703976a09930315c97f9c663633adcc90",
+      "data_nature": "模拟模型输出（仅用于程序功能验证）",
+      "experiment_status": "mock_pipeline_only"
+    },
+    {
+      "group": "non_cold_start",
+      "group_description": "非冷启动样本（history_length > 0）",
+      "label": "mock_beta",
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true,
+      "is_baseline": true,
+      "threshold": 0.5,
+      "sample_count": 276,
+      "positive_count": 148,
+      "negative_count": 128,
+      "positive_rate": 0.5362318840579711,
+      "roc_auc": 0.5237806165540541,
+      "auc_status": "computed",
+      "auc_reason": null,
+      "accuracy": 0.5289855072463768,
+      "log_loss": 0.7076515561087795,
+      "brier_score": 0.25663333244375086,
+      "delta_roc_auc": 0.0,
+      "delta_accuracy": 0.0,
+      "delta_log_loss": 0.0,
+      "source_file": "evidence/mock_run/predictions.csv",
+      "source_sha256": "c6eed17b93687056f8e604edcb5875e700a2d94d5e4be93774c4e36640a6bca0",
+      "data_nature": "模拟模型输出（仅用于程序功能验证）",
+      "experiment_status": "mock_pipeline_only"
+    },
+    {
+      "group": "non_cold_start",
+      "group_description": "非冷启动样本（history_length > 0）",
+      "label": "constant_plugin",
+      "model_name": "example_constant_plugin",
+      "is_mock": true,
+      "is_baseline": false,
+      "threshold": 0.5,
+      "sample_count": 276,
+      "positive_count": 148,
+      "negative_count": 128,
+      "positive_rate": 0.5362318840579711,
+      "roc_auc": 0.5,
+      "auc_status": "computed",
+      "auc_reason": null,
+      "accuracy": 0.5362318840579711,
+      "log_loss": 0.698867413033545,
+      "brier_score": 0.25275362318840583,
+      "delta_roc_auc": -0.023780616554054057,
+      "delta_accuracy": 0.007246376811594235,
+      "delta_log_loss": -0.008784143075234452,
+      "source_file": "evidence/plugin_run/predictions.csv",
+      "source_sha256": "4954b5fd36bdc4f38e689d3f0e8ab28703976a09930315c97f9c663633adcc90",
+      "data_nature": "模拟模型输出（仅用于程序功能验证）",
+      "experiment_status": "mock_pipeline_only"
+    },
+    {
+      "group": "cold_start",
+      "group_description": "冷启动样本（history_length = 0）",
+      "label": "mock_beta",
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true,
+      "is_baseline": true,
+      "threshold": 0.5,
+      "sample_count": 12,
+      "positive_count": 5,
+      "negative_count": 7,
+      "positive_rate": 0.4166666666666667,
+      "roc_auc": 0.5,
+      "auc_status": "computed",
+      "auc_reason": null,
+      "accuracy": 0.4166666666666667,
+      "log_loss": 0.6931471805599453,
+      "brier_score": 0.25,
+      "delta_roc_auc": 0.0,
+      "delta_accuracy": 0.0,
+      "delta_log_loss": 0.0,
+      "source_file": "evidence/mock_run/predictions.csv",
+      "source_sha256": "c6eed17b93687056f8e604edcb5875e700a2d94d5e4be93774c4e36640a6bca0",
+      "data_nature": "模拟模型输出（仅用于程序功能验证）",
+      "experiment_status": "mock_pipeline_only"
+    },
+    {
+      "group": "cold_start",
+      "group_description": "冷启动样本（history_length = 0）",
+      "label": "constant_plugin",
+      "model_name": "example_constant_plugin",
+      "is_mock": true,
+      "is_baseline": false,
+      "threshold": 0.5,
+      "sample_count": 12,
+      "positive_count": 5,
+      "negative_count": 7,
+      "positive_rate": 0.4166666666666667,
+      "roc_auc": 0.5,
+      "auc_status": "computed",
+      "auc_reason": null,
+      "accuracy": 0.4166666666666667,
+      "log_loss": 0.7473469368290866,
+      "brier_score": 0.27666666666666667,
+      "delta_roc_auc": 0.0,
+      "delta_accuracy": 0.0,
+      "delta_log_loss": 0.05419975626914131,
+      "source_file": "evidence/plugin_run/predictions.csv",
+      "source_sha256": "4954b5fd36bdc4f38e689d3f0e8ab28703976a09930315c97f9c663633adcc90",
+      "data_nature": "模拟模型输出（仅用于程序功能验证）",
+      "experiment_status": "mock_pipeline_only"
+    }
+  ],
+  "ranking_by_auc": [
+    {
+      "label": "mock_beta",
+      "roc_auc": 0.5233357540547082,
+      "auc_status": "computed"
+    },
+    {
+      "label": "constant_plugin",
+      "roc_auc": 0.5,
+      "auc_status": "computed"
+    }
+  ],
+  "notes": [
+    "各模型覆盖完全相同的 288 个测试样本。"
+  ],
+  "scope_caveats": [
+    "对比结果只在给定的预测文件之间成立。is_mock=True 的模拟模型之间的差异不能证明任何新模型优于基线，也不能替代在真实 DKT/AKT 上的对照实验。",
+    "本次参与对比的 2 个模型全部为模拟模型（['mock_beta', 'constant_plugin']），结果不能证明任何模型优于基线。"
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "evaluation_version": "1.0.0",
+  "generated_at_utc": "2026-10-13T16:50:58.978380+00:00",
+  "environment": {
+    "python": "3.11.9",
+    "python_implementation": "CPython",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "system": "Windows",
+    "release": "10",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+    "cpu_count": 18,
+    "pandas": "2.2.3",
+    "numpy": "1.26.4",
+    "scikit_learn": "1.6.1",
+    "timer": "time.perf_counter"
+  },
+  "settings": {
+    "batch_sizes": [
+      1,
+      8,
+      32,
+      64
+    ],
+    "repeats": 3,
+    "warmup_batches": 1,
+    "max_requests": 256,
+    "pool_size": 256,
+    "max_history": 256,
+    "invalid_policy": "error",
+    "timestamp_unit": "iso",
+    "unknown_skill_policy": "error"
+  },
+  "model": {
+    "model_name": "mock_history_beta_v1",
+    "is_mock": true,
+    "data_nature": "模拟模型输出（仅用于程序功能验证）"
+  },
+  "input": {
+    "file": "sample_data.csv",
+    "accepted_rows": 288,
+    "students": 12,
+    "time_source": "timestamp"
+  },
+  "rows": [
+    {
+      "batch_size": 1,
+      "batch_count": 768,
+      "sample_count": 768,
+      "repeats": 3,
+      "warmup_batches": 1,
+      "mean_batch_latency_ms": 0.010244531296166315,
+      "p50_batch_latency_ms": 0.008899995009414852,
+      "p95_batch_latency_ms": 0.011200005246791989,
+      "mean_per_sample_latency_ms": 0.010244531296166315,
+      "p50_per_sample_latency_ms": 0.008899995009414852,
+      "p95_per_sample_latency_ms": 0.011200005246791989,
+      "throughput_samples_per_second": 97613.05530631916,
+      "total_seconds": 0.00786780003545573,
+      "pool_size": 256,
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true
+    },
+    {
+      "batch_size": 8,
+      "batch_count": 96,
+      "sample_count": 768,
+      "repeats": 3,
+      "warmup_batches": 1,
+      "mean_batch_latency_ms": 0.059911458189768986,
+      "p50_batch_latency_ms": 0.0594000011915341,
+      "p95_batch_latency_ms": 0.07512500087614171,
+      "mean_per_sample_latency_ms": 0.007488932273721123,
+      "p50_per_sample_latency_ms": 0.007425000148941763,
+      "p95_per_sample_latency_ms": 0.009390625109517714,
+      "throughput_samples_per_second": 133530.3836982247,
+      "total_seconds": 0.005751499986217823,
+      "pool_size": 256,
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true
+    },
+    {
+      "batch_size": 32,
+      "batch_count": 24,
+      "sample_count": 768,
+      "repeats": 3,
+      "warmup_batches": 1,
+      "mean_batch_latency_ms": 0.23787500049365917,
+      "p50_batch_latency_ms": 0.23794999651727267,
+      "p95_batch_latency_ms": 0.25739500088093337,
+      "mean_per_sample_latency_ms": 0.007433593765426849,
+      "p50_per_sample_latency_ms": 0.007435937391164771,
+      "p95_per_sample_latency_ms": 0.008043593777529168,
+      "throughput_samples_per_second": 134524.43482329283,
+      "total_seconds": 0.00570900001184782,
+      "pool_size": 256,
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true
+    },
+    {
+      "batch_size": 64,
+      "batch_count": 12,
+      "sample_count": 768,
+      "repeats": 3,
+      "warmup_batches": 1,
+      "mean_batch_latency_ms": 0.49071666641490685,
+      "p50_batch_latency_ms": 0.4909000017505605,
+      "p95_batch_latency_ms": 0.514019995534909,
+      "mean_per_sample_latency_ms": 0.00766744791273292,
+      "p50_per_sample_latency_ms": 0.0076703125273525075,
+      "p95_per_sample_latency_ms": 0.008031562430232952,
+      "throughput_samples_per_second": 130421.49244200975,
+      "total_seconds": 0.005888599996978883,
+      "pool_size": 256,
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true
+    }
+  ],
+  "caveats": [
+    "计时口径：批次延迟为单次 adapter.predict(batch) 的墙钟耗时（time.perf_counter）；单样本延迟为批次延迟除以该批次样本数；P50/P95 对批次延迟序列取线性插值百分位；吞吐量为被计时样本数除以被计时的总耗时。",
+    "性能数字只代表本次运行所在机器的本次测量：它既不等同于 run_summary.json 中的流水线累计耗时 (model_seconds)，也不等同于鸿蒙端侧性能。模拟模型（is_mock=True）的性能不能代表真实 DKT/AKT 的推理开销。"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "dataset": "EdNet-KT1",
+  "source_files": 1,
+  "converted_rows": 3,
+  "time_source": "timestamp",
+  "timestamp_unit_in_source": "ms",
+  "note": "先关联题库计算标签，再以答题完成时间控制历史可见性，同 solving_id 的答案相互隔离。",
+  "validation": {
+    "input_rows": 3,
+    "accepted_rows": 3,
+    "rejected_rows": 0,
+    "students": 1,
+    "skill_count": 2,
+    "unknown_skill_rows": 0,
+    "missing_response_time_rows": 0,
+    "time_source": "timestamp",
+    "vocabulary_source": "fitted_on_input"
+  }
+}

@@ -1,0 +1,4 @@
+bucket,bucket_lower_seconds,bucket_upper_seconds,sample_count,sample_share,min_delta_seconds,max_delta_seconds,mean_delta_seconds,median_delta_seconds,mean_y_pred,median_y_pred,std_y_pred,mean_y_true,accuracy,label,model_name,is_mock
+"[1分, 5分)",60.0,300.0,56,0.2028985507246377,120.0,120.0,120.0,120.0,0.5110009534116677,0.5,0.09030374977185095,0.42857142857142855,0.4642857142857143,mock_history_beta_v1,mock_history_beta_v1,True
+"[5分, 1小时)",300.0,3600.0,115,0.4166666666666667,300.0,1800.0,1043.4782608695652,300.0,0.4893382704252269,0.5,0.1026012576531493,0.5652173913043478,0.5652173913043478,mock_history_beta_v1,mock_history_beta_v1,True
+"[1天, 7天)",86400.0,604800.0,105,0.3804347826086957,86400.0,259200.0,170331.42857142858,86400.0,0.5173867931010788,0.5,0.11235803128769337,0.5619047619047619,0.5238095238095238,mock_history_beta_v1,mock_history_beta_v1,True

@@ -1,0 +1,5 @@
+record_id,student_id,question_id,skill_id,skill_index,timestamp,event_order,time_source,y_true,y_pred,predicted_label,history_length,delta_time_seconds,cold_start,model_name,is_mock,source_row,schema_version
+assist:0001:100,0001,001,10;20,1;2,,100,order,1,0.5,1,0,,True,mock_history_beta_v1,True,2,1.0
+assist:0001:101,0001,002,20,2,,101,order,1,0.6,1,1,,False,mock_history_beta_v1,True,4,1.0
+assist:0001:102,0001,003,10;20,1;2,,102,order,0,0.6666666666666666,1,2,,False,mock_history_beta_v1,True,3,1.0
+assist:0002:103,0002,002,20,2,,103,order,0,0.5,1,0,,True,mock_history_beta_v1,True,5,1.0

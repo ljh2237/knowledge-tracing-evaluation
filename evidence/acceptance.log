@@ -1,0 +1,70 @@
+## 模拟主程序
+main.py --output-dir /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/mock_run --overwrite
+退出码 0
+成功：模拟模型（仅用于流程验证）；12 位学生，288 条预测
+结果：/Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/mock_run/predictions.csv
+清洗拒收：0 条；运行摘要：run_summary.json
+
+
+## 插件模型
+main.py --model plugin --factory examples.constant_plugin:create_model --model-config examples/plugin_config.json --vocab /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/mock_run/skill_mapping.json --output-dir /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/plugin_run --overwrite
+退出码 0
+成功：模拟模型（仅用于流程验证）；12 位学生，288 条预测
+结果：/Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/plugin_run/predictions.csv
+清洗拒收：0 条；运行摘要：run_summary.json
+
+
+## 未接真实模型明确失败
+main.py --model plugin --factory examples.training_model_template:create_model --vocab /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/mock_run/skill_mapping.json --output-dir /var/folders/st/v16wvs2n1430nhsw2xqnbvq40000gn/T/kt-missing-model-rxqwjw4c/should_not_exist
+退出码 2
+运行失败：无法加载模型工厂 'examples.training_model_template:create_model': 尚未接入真实模型。请加载训练权重和训练词表，实现 docs/MODEL_INTERFACE.md 中的 predict 契约。
+
+
+## ASSISTments 转换
+dataset_converters.py --dataset assistments --input examples/assistments_fixture.csv --output /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/assistments.csv
+退出码 0
+转换完成：4 条记录 → /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/assistments.csv
+
+
+## ASSISTments 推理
+main.py --input /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/assistments.csv --output-dir /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/assistments_run --overwrite
+退出码 0
+成功：模拟模型（仅用于流程验证）；2 位学生，4 条预测
+结果：/Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/assistments_run/predictions.csv
+清洗拒收：0 条；运行摘要：run_summary.json
+
+
+## EdNet 转换
+dataset_converters.py --dataset ednet --input examples/u1.csv --questions examples/questions_fixture.csv --output /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/ednet.csv
+退出码 0
+转换完成：3 条记录 → /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/ednet.csv
+
+
+## EdNet 推理
+main.py --input /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/ednet.csv --output-dir /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/ednet_run --overwrite
+退出码 0
+成功：模拟模型（仅用于流程验证）；1 位学生，3 条预测
+结果：/Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/ednet_run/predictions.csv
+清洗拒收：0 条；运行摘要：run_summary.json
+
+
+## 异常输入严格失败
+main.py --input /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/invalid_input.csv --output-dir /var/folders/st/v16wvs2n1430nhsw2xqnbvq40000gn/T/kt-invalid-5nmh8kvg/strict
+退出码 2
+运行失败：发现 3 条无效记录；第 2 条记录: correct 必须为 0 或 1。可使用 --invalid-policy drop 导出拒收清单并继续。
+
+
+## 异常输入拒收并继续
+main.py --input /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/invalid_input.csv --invalid-policy drop --output-dir /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/drop_run --overwrite
+退出码 0
+成功：模拟模型（仅用于流程验证）；12 位学生，285 条预测
+结果：/Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/drop_run/predictions.csv
+清洗拒收：3 条；运行摘要：run_summary.json
+
+
+## 一万条模拟记录
+main.py --input /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/stress_input.csv --output-dir /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/stress_run --overwrite
+退出码 0
+成功：模拟模型（仅用于流程验证）；100 位学生，10000 条预测
+结果：/Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/evidence/stress_run/predictions.csv
+清洗拒收：0 条；运行摘要：run_summary.json

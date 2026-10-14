@@ -1,0 +1,37 @@
+新建独立虚拟环境
+Using CPython 3.12.14 interpreter at: /Users/kaylnlu/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3
+Creating virtual environment at: .venv
+Activate with: source .venv/bin/activate
+
+
+从本地包缓存安装锁定依赖
+Resolved 12 packages in 2ms
+Installed 12 packages in 25ms
+ + coverage==7.16.2
+ + iniconfig==2.3.1
+ + numpy==2.5.4
+ + packaging==26.3
+ + pandas==3.0.6
+ + pluggy==1.6.0
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + pytest-cov==7.1.0
+ + python-dateutil==2.9.0.post0
+ + ruff==0.17.0
+ + six==1.17.0
+
+
+默认无参数主程序
+成功：模拟模型（仅用于流程验证）；12 位学生，288 条预测
+结果：/private/var/folders/st/v16wvs2n1430nhsw2xqnbvq40000gn/T/kt-release-smoke-8srg57xz/knowledge_tracing_test/outputs/demo/predictions.csv
+清洗拒收：0 条；运行摘要：run_summary.json
+
+
+发布包全部自动测试
+........................................................................ [ 77%]
+.....................                                                    [100%]
+93 passed in 0.32s
+
+
+发布包静态检查
+All checks passed!

@@ -1,0 +1,19 @@
+{
+  "dataset": "ASSISTments",
+  "source_rows": 5,
+  "converted_rows": 4,
+  "collapsed_rows": 1,
+  "time_source": "order",
+  "note": "只有 order_id 时不提供时间间隔；原始标签不插补。",
+  "validation": {
+    "input_rows": 4,
+    "accepted_rows": 4,
+    "rejected_rows": 0,
+    "students": 2,
+    "skill_count": 2,
+    "unknown_skill_rows": 0,
+    "missing_response_time_rows": 1,
+    "time_source": "order",
+    "vocabulary_source": "fitted_on_input"
+  }
+}

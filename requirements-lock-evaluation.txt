@@ -1,0 +1,35 @@
+# 刘静涵模型评估模块新增依赖的精确版本（本次实际验证环境）。
+#
+# 验证环境：Windows 11 / CPython 3.11.9（本机未安装 3.12）
+#   2026-10-13 实机运行 python -m pytest（243 项）与 scripts/acceptance_evaluation.py
+#   （17 项检查）全部通过。
+#
+# 负责人 A 的 requirements-lock.txt 保持不变，仍是其 macOS / Python 3.12.14 环境的记录。
+# 两个文件叠加使用：先装 requirements-lock.txt，再装本文件。
+#
+# 本文件只列出评估模块新增的依赖，以及它们引入的运行时依赖。
+# pandas / numpy / pytest 等共用依赖的版本范围见 requirements.txt；
+# 下方标注「兼容」的两行是本次验证环境中的实际版本，供对照，不强制覆盖。
+
+# --- 评估模块直接依赖 ---
+scikit-learn==1.6.1
+matplotlib==3.9.1
+
+# --- scikit-learn 的运行时依赖 ---
+scipy==1.13.1
+joblib==1.4.2
+threadpoolctl==3.5.0
+
+# --- matplotlib 的运行时依赖 ---
+contourpy==1.2.1
+cycler==0.12.1
+fonttools==4.53.1
+kiwisolver==1.4.5
+pillow==10.4.0
+pyparsing==3.1.2
+
+# --- 共用依赖（本次验证环境实际版本，兼容） ---
+numpy==1.26.4
+pandas==2.2.3
+python-dateutil==2.9.0.post0
+packaging==24.2

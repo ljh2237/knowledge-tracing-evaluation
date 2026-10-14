@@ -1,0 +1,5 @@
+record_id,student_id,question_id,skill_id,correct,timestamp,event_order,response_time_ms
+assist:0001:100,0001,001,10;20,1,,100,2000
+assist:0001:102,0001,003,10;20,0,,102,
+assist:0001:101,0001,002,20,1,,101,1500
+assist:0002:103,0002,002,20,0,,103,3000

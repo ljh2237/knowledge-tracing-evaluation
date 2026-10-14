@@ -1,0 +1,7 @@
+pandas>=2.2,<3.1
+numpy>=1.26,<3
+pytest>=8,<10
+pytest-cov>=5,<8
+# 刘静涵模型评估模块新增依赖（与 pandas/numpy 的版本范围兼容）
+scikit-learn>=1.4,<2
+matplotlib>=3.8,<4

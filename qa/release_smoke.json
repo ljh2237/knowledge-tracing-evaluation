@@ -1,0 +1,36 @@
+{
+  "all_passed": true,
+  "checks": [
+    {
+      "name": "新建独立虚拟环境",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "从本地包缓存安装锁定依赖",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "默认无参数主程序",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "发布包全部自动测试",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "name": "发布包静态检查",
+      "passed": true,
+      "exit_code": 0
+    }
+  ],
+  "source_zip_sha256": "a7400cff32f50d73036e52f7f615ce80eaf75de3cd0b757d857def57874a4606",
+  "verified_manifest_files": 77,
+  "default_prediction_count": 288,
+  "python": "3.12.14",
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "note": "源码 ZIP 解压到临时目录，新建 venv；锁定依赖从开发机 uv 缓存离线安装。ZIP 本身不包含依赖 wheel。"
+}

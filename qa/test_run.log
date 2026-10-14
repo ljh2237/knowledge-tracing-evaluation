@@ -1,0 +1,32 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test
+configfile: pytest.ini
+testpaths: tests
+plugins: cov-7.1.0
+collected 93 items
+
+tests/test_cli.py .........                                              [  9%]
+tests/test_datasets.py ...............                                   [ 25%]
+tests/test_pipeline.py ................................................. [ 78%]
+....................                                                     [100%]
+
+- generated xml file: /Users/kaylnlu/Kalyn/大创_鸿蒙/knowledge_tracing_test/qa/junit.xml -
+================================ tests coverage ================================
+______________ coverage: platform darwin, python 3.12.14-final-0 _______________
+
+Name                      Stmts   Miss  Cover   Missing
+-------------------------------------------------------
+data_loader.py              167     10    94%   31, 53, 64, 67, 90, 133, 135, 137, 143, 179
+dataset_converters.py       120     10    92%   17, 22, 40, 64, 71, 99, 102, 110, 160, 176
+generate_sample_data.py      44     14    68%   16, 45-56, 60
+io_utils.py                  26      1    96%   22
+main.py                      54      2    96%   47, 76
+mock_model.py                14      0   100%
+model_adapter.py             54      1    98%   27
+pipeline.py                 105      7    93%   108, 168-172, 178
+-------------------------------------------------------
+TOTAL                       584     45    92%
+Coverage JSON written to file qa/coverage.json
+============================== 93 passed in 0.57s ==============================
+All checks passed!

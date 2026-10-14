@@ -1,0 +1,380 @@
+{
+  "checks": [
+    {
+      "name": "模拟主程序",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "插件模型",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "未接真实模型明确失败",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "passed": true
+    },
+    {
+      "name": "ASSISTments 转换",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "ASSISTments 推理",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "EdNet 转换",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "EdNet 推理",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "异常输入严格失败",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "passed": true
+    },
+    {
+      "name": "异常输入拒收并继续",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "一万条模拟记录",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "passed": true
+    }
+  ],
+  "runs": {
+    "mock_run": {
+      "version": "1.0.0",
+      "schema_version": "1.0",
+      "created_at_utc": "2026-10-13T14:17:37.214532+00:00",
+      "input_file": "sample_data.csv",
+      "input_sha256": "2c43f840180ac6d17eb1665692d035935786fb700fb24b3155eefc743345db64",
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true,
+      "model_provenance": {
+        "factory": "mock_model:MockModel",
+        "config_sha256": null,
+        "training_vocab_sha256": null
+      },
+      "experiment_status": "mock_pipeline_only",
+      "data": {
+        "input_rows": 288,
+        "accepted_rows": 288,
+        "rejected_rows": 0,
+        "students": 12,
+        "skill_count": 6,
+        "unknown_skill_rows": 0,
+        "missing_response_time_rows": 36,
+        "time_source": "timestamp",
+        "vocabulary_source": "fitted_on_input"
+      },
+      "configuration": {
+        "batch_size": 64,
+        "max_history": 256,
+        "threshold": 0.5,
+        "invalid_policy": "error",
+        "timestamp_unit": "iso",
+        "unknown_skill_policy": "error"
+      },
+      "prediction_count": 288,
+      "cold_start_count": 12,
+      "batches": 5,
+      "model_seconds": 0.0009316240002590348,
+      "pipeline_seconds_before_export": 0.00788320800074871,
+      "runtime": {
+        "python": "3.12.14",
+        "pandas": "3.0.6",
+        "numpy": "2.5.4"
+      },
+      "artifacts": {
+        "predictions.csv": "c6eed17b93687056f8e604edcb5875e700a2d94d5e4be93774c4e36640a6bca0",
+        "rejected_rows.csv": "bca0f7e510796d3e5bfcf96bf1468d474230751c5c6a34180116663c08344aca",
+        "skill_mapping.json": "720b281fb66c28f24601a108612b4208abf49b33125794b6cfc7cc6c32ee684f"
+      },
+      "limitations": [
+        "模拟预测不能证明模型精度或遗忘机制有效"
+      ]
+    },
+    "plugin_run": {
+      "version": "1.0.0",
+      "schema_version": "1.0",
+      "created_at_utc": "2026-10-13T14:17:37.376641+00:00",
+      "input_file": "sample_data.csv",
+      "input_sha256": "2c43f840180ac6d17eb1665692d035935786fb700fb24b3155eefc743345db64",
+      "model_name": "example_constant_plugin",
+      "is_mock": true,
+      "model_provenance": {
+        "factory": "examples.constant_plugin:create_model",
+        "config_sha256": "2b81102e386cca47412a8ea027ea7b6c478f6615163615de16e713d305e76b82",
+        "training_vocab_sha256": "720b281fb66c28f24601a108612b4208abf49b33125794b6cfc7cc6c32ee684f"
+      },
+      "experiment_status": "mock_pipeline_only",
+      "data": {
+        "input_rows": 288,
+        "accepted_rows": 288,
+        "rejected_rows": 0,
+        "students": 12,
+        "skill_count": 6,
+        "unknown_skill_rows": 0,
+        "missing_response_time_rows": 36,
+        "time_source": "timestamp",
+        "vocabulary_source": "provided"
+      },
+      "configuration": {
+        "batch_size": 64,
+        "max_history": 256,
+        "threshold": 0.5,
+        "invalid_policy": "error",
+        "timestamp_unit": "iso",
+        "unknown_skill_policy": "error"
+      },
+      "prediction_count": 288,
+      "cold_start_count": 12,
+      "batches": 5,
+      "model_seconds": 0.00022137600080895936,
+      "pipeline_seconds_before_export": 0.00657591599974694,
+      "runtime": {
+        "python": "3.12.14",
+        "pandas": "3.0.6",
+        "numpy": "2.5.4"
+      },
+      "artifacts": {
+        "predictions.csv": "4954b5fd36bdc4f38e689d3f0e8ab28703976a09930315c97f9c663633adcc90",
+        "rejected_rows.csv": "bca0f7e510796d3e5bfcf96bf1468d474230751c5c6a34180116663c08344aca",
+        "skill_mapping.json": "720b281fb66c28f24601a108612b4208abf49b33125794b6cfc7cc6c32ee684f"
+      },
+      "limitations": [
+        "模拟预测不能证明模型精度或遗忘机制有效"
+      ]
+    },
+    "assistments_run": {
+      "version": "1.0.0",
+      "schema_version": "1.0",
+      "created_at_utc": "2026-10-13T14:17:37.843515+00:00",
+      "input_file": "assistments.csv",
+      "input_sha256": "de5fab9f709f9080799a942b9959b62594141f88b7ebde720bf7336741880945",
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true,
+      "model_provenance": {
+        "factory": "mock_model:MockModel",
+        "config_sha256": null,
+        "training_vocab_sha256": null
+      },
+      "experiment_status": "mock_pipeline_only",
+      "data": {
+        "input_rows": 4,
+        "accepted_rows": 4,
+        "rejected_rows": 0,
+        "students": 2,
+        "skill_count": 2,
+        "unknown_skill_rows": 0,
+        "missing_response_time_rows": 1,
+        "time_source": "order",
+        "vocabulary_source": "fitted_on_input"
+      },
+      "configuration": {
+        "batch_size": 64,
+        "max_history": 256,
+        "threshold": 0.5,
+        "invalid_policy": "error",
+        "timestamp_unit": "iso",
+        "unknown_skill_policy": "error"
+      },
+      "prediction_count": 4,
+      "cold_start_count": 2,
+      "batches": 1,
+      "model_seconds": 3.195899989805184e-05,
+      "pipeline_seconds_before_export": 0.0027003750001313165,
+      "runtime": {
+        "python": "3.12.14",
+        "pandas": "3.0.6",
+        "numpy": "2.5.4"
+      },
+      "artifacts": {
+        "predictions.csv": "85f01f01713e87fa9cd2b6f5f22acb59e05285c03abbd88fea49c14e18dc5513",
+        "rejected_rows.csv": "c8163053d015ec532ecefcd820765f2079e9597d5af4f84b3c90a332c15733ac",
+        "skill_mapping.json": "3cb8869ee7f70b990a08fad7378e9740b71a9f1288087d67f177245fea28e686"
+      },
+      "limitations": [
+        "模拟预测不能证明模型精度或遗忘机制有效"
+      ]
+    },
+    "ednet_run": {
+      "version": "1.0.0",
+      "schema_version": "1.0",
+      "created_at_utc": "2026-10-13T14:17:38.127105+00:00",
+      "input_file": "ednet.csv",
+      "input_sha256": "9cfb744a380c73c0721c60f9917a1a4542a2a56ff8c3fc451d02c93dbec12d6e",
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true,
+      "model_provenance": {
+        "factory": "mock_model:MockModel",
+        "config_sha256": null,
+        "training_vocab_sha256": null
+      },
+      "experiment_status": "mock_pipeline_only",
+      "data": {
+        "input_rows": 3,
+        "accepted_rows": 3,
+        "rejected_rows": 0,
+        "students": 1,
+        "skill_count": 2,
+        "unknown_skill_rows": 0,
+        "missing_response_time_rows": 0,
+        "time_source": "timestamp",
+        "vocabulary_source": "fitted_on_input"
+      },
+      "configuration": {
+        "batch_size": 64,
+        "max_history": 256,
+        "threshold": 0.5,
+        "invalid_policy": "error",
+        "timestamp_unit": "iso",
+        "unknown_skill_policy": "error"
+      },
+      "prediction_count": 3,
+      "cold_start_count": 2,
+      "batches": 1,
+      "model_seconds": 2.8166999982204288e-05,
+      "pipeline_seconds_before_export": 0.0027134170004501357,
+      "runtime": {
+        "python": "3.12.14",
+        "pandas": "3.0.6",
+        "numpy": "2.5.4"
+      },
+      "artifacts": {
+        "predictions.csv": "aad673bb72956e6102c21017e27dd02bf64c007576a8fc0cf191760be977a76c",
+        "rejected_rows.csv": "54eb03964dfc26c95e3f96cb9b0a0ab454ea743debc30898ea4541983059d2bd",
+        "skill_mapping.json": "3cb8869ee7f70b990a08fad7378e9740b71a9f1288087d67f177245fea28e686"
+      },
+      "limitations": [
+        "模拟预测不能证明模型精度或遗忘机制有效"
+      ]
+    },
+    "drop_run": {
+      "version": "1.0.0",
+      "schema_version": "1.0",
+      "created_at_utc": "2026-10-13T14:17:38.413844+00:00",
+      "input_file": "invalid_input.csv",
+      "input_sha256": "bfcbb12222f14beef20110b0445a4b8792e17ec42cd84db3795d3dadb3b9ad37",
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true,
+      "model_provenance": {
+        "factory": "mock_model:MockModel",
+        "config_sha256": null,
+        "training_vocab_sha256": null
+      },
+      "experiment_status": "mock_pipeline_only",
+      "data": {
+        "input_rows": 288,
+        "accepted_rows": 285,
+        "rejected_rows": 3,
+        "students": 12,
+        "skill_count": 6,
+        "unknown_skill_rows": 0,
+        "missing_response_time_rows": 36,
+        "time_source": "timestamp",
+        "vocabulary_source": "fitted_on_input"
+      },
+      "configuration": {
+        "batch_size": 64,
+        "max_history": 256,
+        "threshold": 0.5,
+        "invalid_policy": "drop",
+        "timestamp_unit": "iso",
+        "unknown_skill_policy": "error"
+      },
+      "prediction_count": 285,
+      "cold_start_count": 12,
+      "batches": 5,
+      "model_seconds": 0.0008722910006326856,
+      "pipeline_seconds_before_export": 0.007523708999542578,
+      "runtime": {
+        "python": "3.12.14",
+        "pandas": "3.0.6",
+        "numpy": "2.5.4"
+      },
+      "artifacts": {
+        "predictions.csv": "4332b726e1648288bb46dda9a16302351aaedbf04d579e4330392ab3ce647331",
+        "rejected_rows.csv": "7bb76b401b46aee7637271117980fe9f55ac9930d2b788ae4b14d5bac15bc1bf",
+        "skill_mapping.json": "720b281fb66c28f24601a108612b4208abf49b33125794b6cfc7cc6c32ee684f"
+      },
+      "limitations": [
+        "模拟预测不能证明模型精度或遗忘机制有效"
+      ]
+    },
+    "stress_run": {
+      "version": "1.0.0",
+      "schema_version": "1.0",
+      "created_at_utc": "2026-10-13T14:17:38.846926+00:00",
+      "input_file": "stress_input.csv",
+      "input_sha256": "b0912251849c72c83ce1f317ddffb5612830cbad6d7c754a04af5a6600ceb700",
+      "model_name": "mock_history_beta_v1",
+      "is_mock": true,
+      "model_provenance": {
+        "factory": "mock_model:MockModel",
+        "config_sha256": null,
+        "training_vocab_sha256": null
+      },
+      "experiment_status": "mock_pipeline_only",
+      "data": {
+        "input_rows": 10000,
+        "accepted_rows": 10000,
+        "rejected_rows": 0,
+        "students": 100,
+        "skill_count": 6,
+        "unknown_skill_rows": 0,
+        "missing_response_time_rows": 1000,
+        "time_source": "timestamp",
+        "vocabulary_source": "fitted_on_input"
+      },
+      "configuration": {
+        "batch_size": 64,
+        "max_history": 256,
+        "threshold": 0.5,
+        "invalid_policy": "error",
+        "timestamp_unit": "iso",
+        "unknown_skill_policy": "error"
+      },
+      "prediction_count": 10000,
+      "cold_start_count": 100,
+      "batches": 157,
+      "model_seconds": 0.08043758400708612,
+      "pipeline_seconds_before_export": 0.23148445799961337,
+      "runtime": {
+        "python": "3.12.14",
+        "pandas": "3.0.6",
+        "numpy": "2.5.4"
+      },
+      "artifacts": {
+        "predictions.csv": "210879042f6b317f518860e06c6ac9a03671a76bbbfc1d4ae9d2ec6c73ecf435",
+        "rejected_rows.csv": "bca0f7e510796d3e5bfcf96bf1468d474230751c5c6a34180116663c08344aca",
+        "skill_mapping.json": "720b281fb66c28f24601a108612b4208abf49b33125794b6cfc7cc6c32ee684f"
+      },
+      "limitations": [
+        "模拟预测不能证明模型精度或遗忘机制有效"
+      ]
+    }
+  },
+  "all_passed": true,
+  "data_type": "synthetic_and_handcrafted_fixtures"
+}

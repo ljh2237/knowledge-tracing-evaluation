@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0",
+  "schema_version": "1.0",
+  "created_at_utc": "2026-10-13T14:17:37.843515+00:00",
+  "input_file": "assistments.csv",
+  "input_sha256": "de5fab9f709f9080799a942b9959b62594141f88b7ebde720bf7336741880945",
+  "model_name": "mock_history_beta_v1",
+  "is_mock": true,
+  "model_provenance": {
+    "factory": "mock_model:MockModel",
+    "config_sha256": null,
+    "training_vocab_sha256": null
+  },
+  "experiment_status": "mock_pipeline_only",
+  "data": {
+    "input_rows": 4,
+    "accepted_rows": 4,
+    "rejected_rows": 0,
+    "students": 2,
+    "skill_count": 2,
+    "unknown_skill_rows": 0,
+    "missing_response_time_rows": 1,
+    "time_source": "order",
+    "vocabulary_source": "fitted_on_input"
+  },
+  "configuration": {
+    "batch_size": 64,
+    "max_history": 256,
+    "threshold": 0.5,
+    "invalid_policy": "error",
+    "timestamp_unit": "iso",
+    "unknown_skill_policy": "error"
+  },
+  "prediction_count": 4,
+  "cold_start_count": 2,
+  "batches": 1,
+  "model_seconds": 3.195899989805184e-05,
+  "pipeline_seconds_before_export": 0.0027003750001313165,
+  "runtime": {
+    "python": "3.12.14",
+    "pandas": "3.0.6",
+    "numpy": "2.5.4"
+  },
+  "artifacts": {
+    "predictions.csv": "85f01f01713e87fa9cd2b6f5f22acb59e05285c03abbd88fea49c14e18dc5513",
+    "rejected_rows.csv": "c8163053d015ec532ecefcd820765f2079e9597d5af4f84b3c90a332c15733ac",
+    "skill_mapping.json": "3cb8869ee7f70b990a08fad7378e9740b71a9f1288087d67f177245fea28e686"
+  },
+  "limitations": [
+    "模拟预测不能证明模型精度或遗忘机制有效"
+  ]
+}

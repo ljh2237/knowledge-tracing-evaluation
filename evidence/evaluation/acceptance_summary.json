@@ -1,0 +1,150 @@
+{
+  "evaluation_version": "1.0.0",
+  "script": "scripts/acceptance_evaluation.py",
+  "complete": true,
+  "checks": [
+    {
+      "name": "模型评价指标计算",
+      "category": "evidence",
+      "expected": "退出码 0 且写出 metrics.csv",
+      "observed": "退出码 0",
+      "passed": true
+    },
+    {
+      "name": "AUC / Accuracy / Log Loss 数值校验",
+      "category": "evidence",
+      "expected": "与独立手工计算一致（容差 1e-9）",
+      "observed": "AUC=0.523336, Accuracy=0.524306, LogLoss=0.707047",
+      "passed": true
+    },
+    {
+      "name": "多模型对比测试",
+      "category": "evidence",
+      "expected": "两个模拟模型按 record_id 对齐",
+      "observed": "对齐 288 条样本，基准 mock_beta",
+      "passed": true
+    },
+    {
+      "name": "遗忘时间描述性分析",
+      "category": "evidence",
+      "expected": "按时间间隔分桶并说明观察性边界",
+      "observed": "276 条有效样本，3 个时间分桶",
+      "passed": true
+    },
+    {
+      "name": "固定历史受控时间测试",
+      "category": "evidence",
+      "expected": "Mock 无响应且合成夹具单调下降",
+      "observed": "Mock 最大变化 0；夹具 Spearman -1.0000",
+      "passed": true
+    },
+    {
+      "name": "Mock 模型推理性能测试",
+      "category": "evidence",
+      "expected": "四个批量大小的延迟与吞吐量",
+      "observed": "[1, 8, 32, 64]；环境 Python 3.11.9，计时 time.perf_counter",
+      "passed": true
+    },
+    {
+      "name": "可视化图表生成",
+      "category": "evidence",
+      "expected": "八张图表全部生成且分辨率达标",
+      "observed": "DPI=200，字体语言 zh",
+      "passed": true
+    },
+    {
+      "name": "缺少必需列的预测文件报错",
+      "category": "boundary",
+      "expected": "退出码 2 且不生成输出目录",
+      "observed": "退出码 2，无输出目录",
+      "passed": true
+    },
+    {
+      "name": "非法标签与非法概率报错",
+      "category": "boundary",
+      "expected": "退出码 2 且不生成输出目录",
+      "observed": "退出码 2，无输出目录",
+      "passed": true
+    },
+    {
+      "name": "重复 record_id 报错",
+      "category": "boundary",
+      "expected": "退出码 2 且不生成输出目录",
+      "observed": "退出码 2，无输出目录",
+      "passed": true
+    },
+    {
+      "name": "空预测文件报错",
+      "category": "boundary",
+      "expected": "退出码 2 且不生成输出目录",
+      "observed": "退出码 2，无输出目录",
+      "passed": true
+    },
+    {
+      "name": "模型样本数不一致时严格失败",
+      "category": "boundary",
+      "expected": "退出码 2 且不生成输出目录",
+      "observed": "退出码 2，无输出目录",
+      "passed": true
+    },
+    {
+      "name": "未接入真实模型时明确失败",
+      "category": "boundary",
+      "expected": "退出码 2 且不生成输出目录",
+      "observed": "退出码 2，无输出目录",
+      "passed": true
+    },
+    {
+      "name": "非法的受控时间间隔报错",
+      "category": "boundary",
+      "expected": "退出码 2 且不生成输出目录",
+      "observed": "退出码 2，无输出目录",
+      "passed": true
+    },
+    {
+      "name": "仅有 event_order 的数据不伪造时间",
+      "category": "boundary",
+      "expected": "标记为不适用、不产出时间分桶、不影响退出码",
+      "observed": "退出码 0；原因「没有任何样本带有有效的真实时间间隔；该数据集可能仅有 event_order，按…」",
+      "passed": true
+    },
+    {
+      "name": "原有 main.py 功能不受影响",
+      "category": "regression",
+      "expected": "退出码 0 且列定义不变",
+      "observed": "288 条预测，列定义与 v1.0.0 一致",
+      "passed": true
+    },
+    {
+      "name": "自动生成评估报告",
+      "category": "evidence",
+      "expected": "Markdown 报告含全部章节且图片链接有效",
+      "observed": "10890 字符，23 项检查上下文",
+      "passed": true
+    }
+  ],
+  "passed": 17,
+  "failed": 0,
+  "all_passed": true,
+  "data_type": "synthetic_and_handcrafted_fixtures",
+  "model_status": "all_models_are_mock",
+  "scope": "本次验收使用负责人 A 的合成数据与模拟模型，验证的是评估程序与接口契约；尚未开展真实 DKT/AKT 精度、真实遗忘机制效果与鸿蒙端侧性能验证。",
+  "evidence_files": {
+    "metrics": "metrics/metrics.csv",
+    "comparison": "comparison/model_comparison.json",
+    "forgetting": "forgetting/forgetting_summary.json",
+    "performance": "performance/performance.json",
+    "plots": "plots/plots_manifest.json",
+    "report": "reports/evaluation_report.md",
+    "junit": "junit.xml"
+  },
+  "fingerprints": {
+    "metrics/metrics.csv": "d329c4ef4b57fcc9c57d3c52c8a9a267d97f2186ac1efbb308b13cc733fc46ef",
+    "comparison/model_comparison.json": "471b29caf1b73096d55f3528a4bd6d66514b6ed18576bffaadb7e04151d081c6",
+    "forgetting/forgetting_summary.json": "3a871caf8085dd64263077730034da8d8b2e1bd65bd720f3cf0d74d9e07c782b",
+    "performance/performance.json": "d0c9cde84e1ca302aab077d0a7385365ebd58f93b784bc513fc0a17ac4f5a8ec",
+    "plots/plots_manifest.json": "1f39068c0b640c8f896dc7f530a212e0951a61b36aa97bbc5abd163e27c44507",
+    "reports/evaluation_report.md": "9f66dc3a0f31e7734afae56d302091ef9d988d5fb252b9ae3818d16644d35767",
+    "junit.xml": "e3fddde84d734b492225abcb022c383ad93f928c88fd05875843e338766db712"
+  }
+}

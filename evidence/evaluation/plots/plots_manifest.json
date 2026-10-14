@@ -1,0 +1,83 @@
+{
+  "evaluation_version": "1.0.0",
+  "generated_at_utc": "2026-10-13T16:51:02.656346+00:00",
+  "font_language": "zh",
+  "dpi": 200,
+  "plots": [
+    {
+      "name": "metric_roc_auc",
+      "file": "auc_comparison.png",
+      "status": "created",
+      "reason": null,
+      "source": "metrics/metrics.json",
+      "demo_watermark": true
+    },
+    {
+      "name": "metric_accuracy",
+      "file": "accuracy_comparison.png",
+      "status": "created",
+      "reason": null,
+      "source": "metrics/metrics.json",
+      "demo_watermark": true
+    },
+    {
+      "name": "metric_log_loss",
+      "file": "log_loss_comparison.png",
+      "status": "created",
+      "reason": null,
+      "source": "metrics/metrics.json",
+      "demo_watermark": true
+    },
+    {
+      "name": "roc_curve",
+      "file": "roc_curves.png",
+      "status": "created",
+      "reason": null,
+      "source": "metrics/metrics.json + predictions.csv",
+      "demo_watermark": true
+    },
+    {
+      "name": "forgetting_observed",
+      "file": "forgetting_observed.png",
+      "status": "created",
+      "reason": null,
+      "source": "forgetting/interval_buckets.csv",
+      "demo_watermark": true
+    },
+    {
+      "name": "forgetting_model_compare",
+      "file": "forgetting_model_compare.png",
+      "status": "created",
+      "reason": null,
+      "source": "forgetting/forgetting_summary.json",
+      "demo_watermark": true
+    },
+    {
+      "name": "latency",
+      "file": "inference_latency.png",
+      "status": "created",
+      "reason": null,
+      "source": "performance/performance.csv",
+      "demo_watermark": true
+    },
+    {
+      "name": "throughput",
+      "file": "throughput_by_batch.png",
+      "status": "created",
+      "reason": null,
+      "source": "performance/performance.csv",
+      "demo_watermark": true
+    }
+  ],
+  "created": [
+    "metric_roc_auc",
+    "metric_accuracy",
+    "metric_log_loss",
+    "roc_curve",
+    "forgetting_observed",
+    "forgetting_model_compare",
+    "latency",
+    "throughput"
+  ],
+  "skipped": []
+}
