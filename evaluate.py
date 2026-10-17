@@ -400,7 +400,7 @@ def command_all(args: argparse.Namespace) -> dict:
             include_cold_start=not args.exclude_cold_start, overwrite=args.overwrite,
             seed=args.seed, relative_to=ROOT,
         )
-        relative = " ".join(path.relative_to(ROOT).as_posix() for path in available_metrics)
+        relative = " ".join(_relative(path) for path in available_metrics)
         commands.append(f"python evaluate.py metrics --predictions {relative} --overwrite")
         record("metrics", "executed", f"{len(available_metrics)} 个预测文件")
     else:
@@ -428,8 +428,8 @@ def command_all(args: argparse.Namespace) -> dict:
         extra = ("" if args.no_synthetic_fixture
                  else f" --controlled-model {SYNTHETIC_FIXTURE_LABEL}=evaluation.synthetic_time_model:create_model")
         commands.append(
-            f"python evaluate.py forgetting --predictions {run_dir_predictions.relative_to(ROOT).as_posix()} "
-            f"--input {args.input.relative_to(ROOT).as_posix()} "
+            f"python evaluate.py forgetting --predictions {_relative(run_dir_predictions)} "
+            f"--input {_relative(args.input)} "
             f"--intervals {args.intervals} --unit {args.unit} --repeats {args.repeats}{extra} --overwrite"
         )
     else:
@@ -442,7 +442,7 @@ def command_all(args: argparse.Namespace) -> dict:
             include_cold_start=not args.exclude_cold_start, overwrite=args.overwrite,
             relative_to=ROOT,
         )
-        relative = " ".join(path.relative_to(ROOT).as_posix() for path in compare_predictions)
+        relative = " ".join(_relative(path) for path in compare_predictions)
         commands.append(f"python evaluate.py compare --predictions {relative} --overwrite")
         record("compare", "executed", f"{len(compare_predictions)} 个模型")
     else:
@@ -460,7 +460,7 @@ def command_all(args: argparse.Namespace) -> dict:
             overwrite=args.overwrite,
         )
         commands.append(
-            f"python evaluate.py performance --input {args.input.relative_to(ROOT).as_posix()} "
+            f"python evaluate.py performance --input {_relative(args.input)} "
             f"--batch-sizes {args.batch_sizes} --repeats {args.performance_repeats} "
             f"--warmup {args.warmup} --overwrite"
         )

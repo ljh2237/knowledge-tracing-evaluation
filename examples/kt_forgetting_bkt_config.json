@@ -1,0 +1,8 @@
+{
+  "repo": "../kt-forgetting",
+  "tag": "bkt",
+  "root": "exp",
+  "backend": "bkt",
+  "skill_map": {"S000": 0, "S001": 1, "S002": 2, "S003": 3, "S004": 4, "S005": 5},
+  "threads": 2
+}

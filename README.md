@@ -9,18 +9,22 @@ python evaluate.py all --overwrite     # 一条命令跑完全部评估流程
 
 | 项目 | 实测结果 |
 | --- | --- |
-| 自动化测试 | **247 项通过 / 0 失败**（`python -m pytest -q`） |
+| 自动化测试 | **283 项通过 / 0 失败**（`python -m pytest -q`） |
 | 静态检查 | **通过**（`python -m ruff check .`） |
 | 集成验收 | **18 项全部通过**（`python scripts/acceptance_evaluation.py`） |
 | 生成图表 | **9 张** PNG，DPI 200 |
 
 > **⚠️ 数据真实性声明**
 >
-> 当前**尚未收到训练组的真实 DKT/AKT 模型权重**。仓库中所有预测与
-> 指标均来自 **合成数据 + 模拟模型**（`is_mock=True`），只能证明**评估程序本身正确**，
-> **不能**作为模型精度、遗忘机制有效性或鸿蒙端侧性能的结论。
+> 训练组已交付真实模型权重（`kt-forgetting` 仓库 74 份 `model.pt`），本项目已通过
+> [`examples/kt_forgetting_plugin.py`](examples/kt_forgetting_plugin.py) 接入跑通，
+> 产物标记 `is_mock=False`、`experiment_status=external_model_inference`。
 >
-> 程序对需要真实模型才能完成的实验一律明确标注「**待真实模型接入**」或「未执行」，
+> 但仓库内 `evidence/` 下的验收证据仍由 **合成数据 + 模拟模型** 生成（`is_mock=True`），
+> 只能证明**评估程序本身正确**。真实精度、遗忘机制有效性与鸿蒙端侧性能
+> 仍**没有**在有意义的 held-out 数据上验证过——仓库内 `data/` 为空，缺少真实作答 CSV。
+>
+> 程序对需要真实模型或真实数据才能完成的实验一律明确标注「**待真实模型接入**」或「未执行」，
 > 不会生成虚假的实验结论。详见 [已验证 / 未验证范围](#已验证--未验证范围)。
 
 ---
@@ -36,6 +40,7 @@ python evaluate.py all --overwrite     # 一条命令跑完全部评估流程
 - [自动化测试与验收](#自动化测试与验收)
 - [已验证 / 未验证范围](#已验证--未验证范围)
 - [接入真实模型](#接入真实模型)
+- [kt-forgetting 接入现状](#训练仓库-kt-forgetting-的接入现状)
 - [目录结构](#目录结构)
 - [文档索引](#文档索引)
 
@@ -342,7 +347,7 @@ python evaluate.py metrics --help          # 每个子命令都有独立帮助
 ## 自动化测试与验收
 
 ```bash
-python -m pytest -q                      # 247 项通过
+python -m pytest -q                      # 283 项通过
 python -m ruff check .                   # 静态检查通过
 python scripts/acceptance_evaluation.py  # 18 项集成验收
 ```
@@ -381,15 +386,18 @@ python scripts/acceptance_evaluation.py  # 18 项集成验收
 - 9 张图表与 14 章节报告可自动生成，图片链接有效
 - 原有 `main.py`、原有 93 项自动化测试与 `predictions.csv` 列定义未受影响
 
-### ❌ 未验证（缺少真实模型或正式测试集）
+### ❌ 未验证（权重已到，缺真实 held-out 数据）
 
 | 事项 | 需要的输入 |
 | --- | --- |
-| 真实 DKT/AKT 的预测精度 | 训练组模型权重 + 固定测试集划分 |
-| 真实遗忘机制的有效性与遗忘曲线 | 带时间输入的模型权重 |
+| 真实 DKT/AKT 的预测精度 | 真实 held-out 作答 CSV（仓库 `data/` 为空） |
+| 真实遗忘机制的有效性与遗忘曲线 | 同上；权重已交付，缺数据 |
 | 真实模型与基线的对照结论 | 同上，且需同一测试集划分 |
-| 真实模型推理性能与**鸿蒙端侧**性能 | 真实权重 + 端侧设备 |
+| 真实模型推理性能与**鸿蒙端侧**性能 | 真实数据 + 端侧设备 |
 | 真实数据上的知识点长尾表现 | 真实数据 |
+
+> 用合成数据跑真实权重得到的指标**不能**当作精度结论：
+> 夹具上的 AUC 只反映「模型没见过这份数据」，与模型好坏无关。
 
 ---
 
@@ -429,6 +437,53 @@ python evaluate.py all --run-dir outputs/real_model \
 `is_mock=False` 时报告会自动去掉模拟数据说明与图表水印，
 第 12 节的「未完成事项」也会替换为真实结论。
 
+### 训练仓库 kt-forgetting 的接入现状
+
+训练仓库 `kt-forgetting`（知识图谱 + 知识追踪）已通过
+[`examples/kt_forgetting_plugin.py`](examples/kt_forgetting_plugin.py) 接入，
+**未修改该仓库任何一行代码，也未修改本项目的 `contracts.py`**。
+
+首要澄清：**它输出的就是答对概率，不是知识掌握度**。证据在
+`src/eval/predict_mastery.py:259` 的 `score_semantics: "predicted_response_probability"`
+与 `:273` 打印的「预测答对概率，非真实掌握度」。因此 `y_pred` 可以直接接，指标口径无需改动。
+
+主要差异与处理：
+
+| 差异 | 处理 |
+| --- | --- |
+| 它是 CLI + 函数接口，本项目要可调用对象 | 适配器包一层 `predict(requests)` |
+| 知识点用 `meta.json` 的密集 id | `skill_map`，或复用它的 `resolve_skill` |
+| 历史每步要 `delta` **和** `dt_global` 两个数组 | 适配器从 `available_at` 推导，口径与它自己的 `load_history_json()` **逐项一致**（有测试固定） |
+| 目标间隔语义 | `delta_time_seconds` 与它的 `gap_sec` 同义，直接映射 |
+
+⚠️ **仅有 `event_order` 的数据无法驱动带遗忘机制的后端**：没有真实时间轴就推不出
+`dt_global`。默认直接失败，不把事件顺序当秒数；确需无时间对照实验时才显式开启
+`allow_order_only_time`。
+
+**权重已随训练仓库交付**：`exp/<tag>/model.pt` 共 74 份、12.90 MB，已纳入版本控制。
+`git pull` 即可加载真实模型，`is_mock=False`。已实测的情况：
+
+| 后端 | 实测结果 |
+| --- | --- |
+| BKT | ✅ 真实 EM 拟合参数，`is_mock=False`，概率 0.284~0.766 |
+| DKT + 遗忘机制 | ✅ 真实权重，`is_mock=False`；间隔 0→365 天概率 0.8565→0.8422（单调不增） |
+| MOOCCube 中文线代 DKT | ✅ 端到端跑通，22 个中文章节词表，`evaluate.py all` 六步无跳过 |
+
+模块一的图谱是中文线性代数，而 ASSISTments（英文初中代数）与 EdNet（英语）题目域对不上。
+训练仓库 v4 的 `*_mooccube_la_*` 系列在 **MOOCCube 中文线代子集**（清华 KEG + 学堂在线，
+2,824 题 / 11.3 万条真实作答）上训练，是当前最贴合的选择，测试 AUC 0.780。
+
+词表与适配器配置由脚本一次生成，避免「输入编码对上了、模型 id 却错位」：
+
+```bash
+python scripts/build_kt_forgetting_vocab.py \
+  --meta ../kt-forgetting/exp/v4_mooccube_la_dkt_forget_s2026/meta.json \
+  --out-dir examples --prefix kt_forgetting_mooccube
+```
+
+完整说明、配置字段、`is_mock` 规则与实测记录见
+[**kt-forgetting 接入文档**](docs/KT_FORGETTING_INTEGRATION.md)。
+
 ---
 
 ## 目录结构
@@ -455,11 +510,11 @@ knowledge_tracing_test/
 ├── io_utils.py                 # 鲁凯宁：原子写出与指纹
 ├── dataset_converters.py       # 鲁凯宁：ASSISTments / EdNet 转换器
 │
-├── tests/                      # 247 项自动化测试（原 93 + 新增 154）
+├── tests/                      # 283 项自动化测试（含 kt-forgetting 适配 36 项）
 ├── docs/                       # 全部设计、接口、指标与交付文档
-├── scripts/                    # 环境安装、验收、打包脚本
+├── scripts/                    # 环境安装、验收、打包、kt-forgetting 词表生成
 ├── evidence/                   # 验收证据（含 evidence/evaluation/）
-├── examples/                   # 插件示例与数据集夹具
+├── examples/                   # 插件示例、kt-forgetting 适配器与数据集夹具
 ├── data/                       # 自有数据目录
 └── outputs/                    # 运行结果（不纳入版本控制）
 ```
@@ -477,3 +532,4 @@ knowledge_tracing_test/
 | [`docs/EVALUATION_DELIVERY_CHECKLIST.md`](docs/EVALUATION_DELIVERY_CHECKLIST.md) | **交付核对表**：7 项任务对应成果与实际运行数值 |
 | [`docs/DATA_FORMAT.md`](docs/DATA_FORMAT.md) | 框架输入/输出字段、缺失值、时间与词表规则 |
 | [`docs/MODEL_INTERFACE.md`](docs/MODEL_INTERFACE.md) | 训练组接入契约 |
+| [`docs/KT_FORGETTING_INTEGRATION.md`](docs/KT_FORGETTING_INTEGRATION.md) | **kt-forgetting 接入**：接口差异、时间轴推导、权重与词表现状、MOOCCube 模型选择、实测结果 |

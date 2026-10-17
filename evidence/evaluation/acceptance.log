@@ -31,89 +31,89 @@ plots ��ɣ�����Ŀ¼��evidence\evaluation
 ## 采集自动化测试结果
 -m pytest -q --junitxml=evidence/evaluation/junit.xml
 退出码 0
-........................................................................ [ 29%]
-........................................................................ [ 58%]
-........................................................................ [ 87%]
-...............................                                          [100%]
-- generated xml file: C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\�����汾\������_֪ʶ׷��ģ������ģ��_v1.0.0\knowledge_tracing_test\evidence\evaluation\junit.xml -
-247 passed in 45.90s
+........................................................................ [ 25%]
+........................................................................ [ 50%]
+........................................................................ [ 76%]
+...................................................................      [100%]
+- generated xml file: C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\knowledge_tracing_test_³����\evidence\evaluation\junit.xml -
+283 passed in 78.51s (0:01:18)
 
 
 ## 缺少必需列的预测文件报错
-evaluate.py metrics --predictions C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\bad_missing_column.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_negative_metrics --overwrite
+evaluate.py metrics --predictions C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\bad_missing_column.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_negative_metrics --overwrite
 退出码 2
-����ʧ�ܣ�C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\�����汾\������_֪ʶ׷��ģ������ģ��_v1.0.0\knowledge_tracing_test\evidence\evaluation\bad_missing_column.csv ȱ�ٱ�����: ['y_pred']��������Ϊ ['record_id', 'y_true', 'y_pred']
+����ʧ�ܣ�C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\knowledge_tracing_test_³����\evidence\evaluation\bad_missing_column.csv ȱ�ٱ�����: ['y_pred']��������Ϊ ['record_id', 'y_true', 'y_pred']
 
 
 ## 非法标签与非法概率报错
-evaluate.py metrics --predictions C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\bad_values.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_negative_metrics --overwrite
+evaluate.py metrics --predictions C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\bad_values.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_negative_metrics --overwrite
 退出码 2
-����ʧ�ܣ�C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\�����汾\������_֪ʶ׷��ģ������ģ��_v1.0.0\knowledge_tracing_test\evidence\evaluation\bad_values.csv �� y_true ������ 0 �� 1�����¼�¼ȡֵ�Ƿ�: n2
+����ʧ�ܣ�C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\knowledge_tracing_test_³����\evidence\evaluation\bad_values.csv �� y_true ������ 0 �� 1�����¼�¼ȡֵ�Ƿ�: n2
 
 
 ## 重复 record_id 报错
-evaluate.py metrics --predictions C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\bad_duplicate_id.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_negative_duplicate --overwrite
+evaluate.py metrics --predictions C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\bad_duplicate_id.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_negative_duplicate --overwrite
 退出码 2
-����ʧ�ܣ�C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\�����汾\������_֪ʶ׷��ģ������ģ��_v1.0.0\knowledge_tracing_test\evidence\evaluation\bad_duplicate_id.csv �� record_id ����Ψһ���ظ�ȡֵ: n1
+����ʧ�ܣ�C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\knowledge_tracing_test_³����\evidence\evaluation\bad_duplicate_id.csv �� record_id ����Ψһ���ظ�ȡֵ: n1
 
 
 ## 空预测文件报错
-evaluate.py metrics --predictions C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\bad_empty.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_negative_empty --overwrite
+evaluate.py metrics --predictions C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\bad_empty.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_negative_empty --overwrite
 退出码 2
-����ʧ�ܣ�Ԥ���ļ�û��������: C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\�����汾\������_֪ʶ׷��ģ������ģ��_v1.0.0\knowledge_tracing_test\evidence\evaluation\bad_empty.csv
+����ʧ�ܣ�Ԥ���ļ�û��������: C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\knowledge_tracing_test_³����\evidence\evaluation\bad_empty.csv
 
 
 ## 模型样本数不一致时严格失败
-evaluate.py compare --predictions evidence/mock_run/predictions.csv C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\bad_shorter.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_negative_compare --overwrite
+evaluate.py compare --predictions evidence/mock_run/predictions.csv C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\bad_shorter.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_negative_compare --overwrite
 退出码 2
 ����ʧ�ܣ�ģ�������ظ����޷����ֶԱȶ���: ['mock_history_beta_v1', 'mock_history_beta_v1']����ʹ�� --labels ָ��Ψһ����
 
 
 ## 未接入真实模型时明确失败
-evaluate.py performance --input sample_data.csv --factory examples.training_model_template:create_model --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_negative_performance --overwrite
+evaluate.py performance --input sample_data.csv --factory examples.training_model_template:create_model --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_negative_performance --overwrite
 退出码 2
 ����ʧ�ܣ��޷�����ģ�͹��� 'examples.training_model_template:create_model': ��δ������ʵģ�͡������ѵ��Ȩ�غ�ѵ���ʱ���ʵ�� docs/MODEL_INTERFACE.md �е� predict ��Լ��
 
 
 ## 非法的受控时间间隔报错
-evaluate.py forgetting --input sample_data.csv --intervals 1,-2 --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_negative_intervals --overwrite
+evaluate.py forgetting --input sample_data.csv --intervals 1,-2 --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_negative_intervals --overwrite
 退出码 2
 ����ʧ�ܣ�ʱ���������ǷǸ���������ʵ��Ϊ '-2'
 
 
 ## 仅有 event_order 的数据不伪造时间
-evaluate.py forgetting --predictions evidence/assistments_run/predictions.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_order_only --overwrite
+evaluate.py forgetting --predictions evidence/assistments_run/predictions.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_order_only --overwrite
 退出码 0
-forgetting ��ɣ�����Ŀ¼��C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\�����汾\������_֪ʶ׷��ģ������ģ��_v1.0.0\knowledge_tracing_test\evidence\evaluation\_order_only
+forgetting ��ɣ�����Ŀ¼��C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\knowledge_tracing_test_³����\evidence\evaluation\_order_only
 
 
 ## 原有 main.py 回归
 main.py --output-dir evidence/evaluation/_main_regression --overwrite
 退出码 0
 �ɹ���ģ��ģ�ͣ�������������֤����12 λѧ����288 ��Ԥ��
-�����C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\�����汾\������_֪ʶ׷��ģ������ģ��_v1.0.0\knowledge_tracing_test\evidence\evaluation\_main_regression\predictions.csv
+�����C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\knowledge_tracing_test_³����\evidence\evaluation\_main_regression\predictions.csv
 ��ϴ���գ�0 ��������ժҪ��run_summary.json
 
 
 ## 验收标准·单份 CSV 计算指标
-evaluate.py metrics --predictions evidence/mock_run/predictions.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_single_csv --overwrite
+evaluate.py metrics --predictions evidence/mock_run/predictions.csv --output-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_single_csv --overwrite
 退出码 0
-metrics ��ɣ�����Ŀ¼��C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\�����汾\������_֪ʶ׷��ģ������ģ��_v1.0.0\knowledge_tracing_test\evidence\evaluation\_single_csv
+metrics ��ɣ�����Ŀ¼��C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\knowledge_tracing_test_³����\evidence\evaluation\_single_csv
 
 
 ## 验收标准·单份 CSV 生成图表
-evaluate.py plots --evaluation-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_single_csv --predictions evidence/mock_run/predictions.csv --overwrite
+evaluate.py plots --evaluation-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_single_csv --predictions evidence/mock_run/predictions.csv --overwrite
 退出码 0
-plots ��ɣ�����Ŀ¼��C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\�����汾\������_֪ʶ׷��ģ������ģ��_v1.0.0\knowledge_tracing_test\evidence\evaluation\_single_csv
+plots ��ɣ�����Ŀ¼��C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\knowledge_tracing_test_³����\evidence\evaluation\_single_csv
 
 
 ## 验收标准·单份 CSV 导出报告
-evaluate.py report --evaluation-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_single_csv --output C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\evidence\evaluation\_single_csv\reports\single_report.md --overwrite
+evaluate.py report --evaluation-dir C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_single_csv --output C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\evidence\evaluation\_single_csv\reports\single_report.md --overwrite
 退出码 0
-���������ɣ�C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\�����汾\������_֪ʶ׷��ģ������ģ��_v1.0.0\knowledge_tracing_test\evidence\evaluation\_single_csv\reports\single_report.md
+���������ɣ�C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\knowledge_tracing_test_³����\evidence\evaluation\_single_csv\reports\single_report.md
 
 
 ## 自动生成评估报告
-evaluate.py report --evaluation-dir evidence/evaluation --output evidence/evaluation/reports/evaluation_report.md --docs-report C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\交付版本\刘静涵_知识追踪模型评估模块_v1.0.0\knowledge_tracing_test\docs\EVALUATION_TEST_REPORT.md --acceptance-summary evidence/evaluation/acceptance_summary.json --junit-xml evidence/evaluation/junit.xml --command python evaluate.py all --output-dir outputs/evaluation --overwrite --overwrite
+evaluate.py report --evaluation-dir evidence/evaluation --output evidence/evaluation/reports/evaluation_report.md --docs-report C:\Users\Lenovo\Desktop\items\鸿蒙\knowledge_tracing_test\knowledge_tracing_test_鲁凯宁\docs\EVALUATION_TEST_REPORT.md --acceptance-summary evidence/evaluation/acceptance_summary.json --junit-xml evidence/evaluation/junit.xml --command python evaluate.py all --output-dir outputs/evaluation --overwrite --overwrite
 退出码 0
-���������ɣ�C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\�����汾\������_֪ʶ׷��ģ������ģ��_v1.0.0\knowledge_tracing_test\evidence\evaluation\reports\evaluation_report.md
+���������ɣ�C:\Users\Lenovo\Desktop\items\����\knowledge_tracing_test\knowledge_tracing_test_³����\evidence\evaluation\reports\evaluation_report.md

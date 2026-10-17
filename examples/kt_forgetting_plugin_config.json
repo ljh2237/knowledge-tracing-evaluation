@@ -1,0 +1,17 @@
+{
+  "repo": "../kt-forgetting",
+  "tag": "v4_controlled_dkt_forget_s2026",
+  "root": "exp",
+  "backend": "dkt",
+  "multi_skill_policy": "error",
+  "allow_order_only_time": false,
+  "skill_map": {
+    "S000": 0,
+    "S001": 1,
+    "S002": 2,
+    "S003": 3,
+    "S004": 4,
+    "S005": 5
+  },
+  "threads": 2
+}

@@ -126,7 +126,7 @@
       "name": "自动生成评估报告",
       "category": "evidence",
       "expected": "Markdown 报告含全部章节且图片链接有效",
-      "observed": "11005 字符，24 项检查上下文",
+      "observed": "10983 字符，24 项检查上下文",
       "passed": true
     }
   ],
@@ -147,11 +147,11 @@
   },
   "fingerprints": {
     "metrics/metrics.csv": "d329c4ef4b57fcc9c57d3c52c8a9a267d97f2186ac1efbb308b13cc733fc46ef",
-    "comparison/model_comparison.json": "45086dcff892646ab8e29f8e381dcf0bdf1d829b14c65995aa334526a1261ca7",
-    "forgetting/forgetting_summary.json": "6589dc8d5f7d668c06499415ba8eb64d15ba6e50be9e3df3c352c9332ab54a33",
-    "performance/performance.json": "e5d152de4346e3b7b226d560c7a4ec445078b5a4a96c3588fa900442fb7ae689",
-    "plots/plots_manifest.json": "31908f972ae7b8397efd261049eb7bcdbb9ac4707f3319992a011fda9960ff02",
-    "reports/evaluation_report.md": "7af2d7ad150ebf8f83430470b6c51f0cb6b4e6bfb69dba7dbc633f6d00f2774c",
-    "junit.xml": "322005a54b82baf63d585df26de351ea1849e4eb72db1e48b446b9d2b9c548e6"
+    "comparison/model_comparison.json": "3b619ef399720801f81bc67b8e5aa1a2e751b4f9cfcee8922b2f5b040c8d75c2",
+    "forgetting/forgetting_summary.json": "e408c9579e93ff8f2e29b2557fef01cdd134af924b62360f9aec501e4a9d1e39",
+    "performance/performance.json": "f4f0c36b0029865dcd88cee299dfda3bd89542f9779236bf5464179ed94823bc",
+    "plots/plots_manifest.json": "7e3f76cf0bd0abe094d66458ac4ced3090684a395c063f80319f2d50d68718ca",
+    "reports/evaluation_report.md": "4f6ae3858fce6092c9df1bfbe71d13b03a8899dfcee7fe724a86d4ced413f43c",
+    "junit.xml": "20876299c96895fa4a79943ec83906205b8a02722c9d74b41895616580227157"
   }
 }
