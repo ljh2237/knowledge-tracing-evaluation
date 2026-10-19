@@ -309,15 +309,46 @@ def test_untrained_flag_forces_mock_marking(tmp_path):
 
 
 @requires_repo
-def test_weight_directory_without_meta_needs_skill_map_and_size(tmp_path):
-    """有真实权重但没有 meta.json 时，必须由调用方补 skill_map + n_skills。"""
+def test_weight_directory_without_meta_needs_skill_map(tmp_path):
+    """有真实权重但没有 meta.json 时，必须由调用方补 skill_map。"""
     make_run_dir(tmp_path, with_meta=False, with_weights=True)
     base = {"repo": str(REPO), "tag": "synthetic_tag", "root": str(tmp_path / "exp"),
             "backend": "dkt"}
-    with pytest.raises(ModelValidationError, match="meta.json"):
+    with pytest.raises(ModelValidationError, match="skill_map"):
         KtForgettingModel(base)
-    with pytest.raises(ModelValidationError, match="meta.json"):
-        KtForgettingModel({**base, "skill_map": {"S000": 0}})  # 只有映射、没有词表大小
+
+
+@requires_repo
+def test_vocabulary_size_is_inferred_from_the_checkpoint():
+    """akt_* 没有 meta.json，但权重里的 skill_emb 形状能确定词表大小。"""
+    model = KtForgettingModel({
+        "repo": str(REPO), "tag": "akt_forget_s2026", "backend": "dkt",
+        "skill_map": {"S000": 0},
+    })
+    assert model.n_skills == 149
+    assert model.is_mock is False
+    assert "(untrained)" not in model.name
+    probability = model.predict([request((), record_id="a1")])[0].probability
+    assert 0.0 <= probability <= 1.0
+
+
+@requires_repo
+def test_declared_n_skills_must_match_the_checkpoint():
+    """配置写了 n_skills 就与权重比对，不一致必须报错而不是照单全收。"""
+    with pytest.raises(ModelValidationError, match="不一致"):
+        KtForgettingModel({
+            "repo": str(REPO), "tag": "akt_forget_s2026", "backend": "dkt",
+            "skill_map": {"S000": 0}, "n_skills": 30,
+        })
+
+
+@requires_repo
+def test_skill_map_beyond_the_vocabulary_is_rejected():
+    with pytest.raises(ModelValidationError, match="超出词表范围"):
+        KtForgettingModel({
+            "repo": str(REPO), "tag": "v4_controlled_dkt_forget_s2026", "backend": "dkt",
+            "skill_map": {"S000": 0, "S999": 40},
+        })
 
 
 @requires_repo

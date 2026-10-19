@@ -158,7 +158,7 @@ class KtForgettingModel:
     ``data``                    否       覆盖 metrics.json 记录的数据路径（跨机器迁移）
     ``backend``                 否       ``auto``（默认）/ ``dkt`` / ``bkt``
     ``skill_map``               否       ``{框架知识点标签: 模型密集 id}``，显式映射
-    ``n_skills``                否       词表大小；仅当实验目录没有 meta.json 时必填
+    ``n_skills``                否       词表大小；缺 meta.json 时默认从权重推断，填了则校验一致性
     ``multi_skill_policy``      否       ``error``（默认）/ ``mean`` / ``first``
     ``allow_order_only_time``   否       默认 false；true 时把无时间数据当作全零间隔
     ``allow_untrained``         否       默认 false；仅用于没有权重时验证本适配器通路，
@@ -289,13 +289,22 @@ class KtForgettingModel:
                 raise ModelValidationError(f"加载 {self.tag} 失败: {exc}") from exc
         else:
             # 少数实验目录只提交了 model.pt 与 metrics.json，没有 meta.json 词表
-            # （例如 v1/v2 的 akt_*、dkt_*、synth_*）。权重是真实的，但必须由调用方
-            # 给出 skill_map 与 n_skills 才能把输入映射进模型。
-            if not (self.skill_map and self.n_skills):
+            # （例如 v1/v2 的 akt_*、dkt_*、synth_*）。权重是真实的，但没有词表就
+            # 不知道原始 skill_id 对应哪个密集 id，必须由调用方给出 skill_map；
+            # 词表大小可以从权重里的 skill_emb 形状推断，不必手工填写。
+            if not self.skill_map:
                 raise ModelValidationError(
-                    f"{run_dir} 有 model.pt 但缺少 meta.json 词表。请在配置里同时提供 "
-                    "skill_map（知识点标签 → 密集 id）与 n_skills（词表大小），"
+                    f"{run_dir} 有 model.pt 但缺少 meta.json 词表。请提供 skill_map"
+                    "（知识点标签 → 密集 id）；n_skills 可省略，将从权重推断，"
                     "或改用自带 meta.json 的 tag（v3/v4 系列）"
+                )
+            inferred = self._checkpoint_n_skills(weights)
+            if self.n_skills is None:
+                self.n_skills = inferred
+            else:
+                _require(
+                    self.n_skills == inferred,
+                    f"配置的 n_skills={self.n_skills} 与权重里的词表大小 {inferred} 不一致",
                 )
             model, run_args, meta = self._build_from_run_dir(run_dir, untrained=False)
 
@@ -307,6 +316,7 @@ class KtForgettingModel:
                 )
             except Exception as exc:
                 raise ModelValidationError(f"加载温度校准失败: {exc}") from exc
+        self._validate_skill_map(int(meta["n_skills"]))
         self._model = model
         self._meta = meta
         self._backend = "dkt"
@@ -373,6 +383,36 @@ class KtForgettingModel:
                 raise ModelValidationError(f"加载 {run_dir / 'model.pt'} 失败: {exc}") from exc
             model.eval()
         return model, run_args, meta
+
+    def _checkpoint_n_skills(self, weights: Path) -> int:
+        """从权重里的知识点嵌入形状读出词表大小。
+
+        没有 ``meta.json`` 时这是唯一可靠的信息来源——按配置猜 n_skills 一旦猜错，
+        加载权重会直接报形状不匹配，或者更糟：恰好同形状而语义错位。
+        """
+        try:
+            state = self._torch.load(weights, map_location="cpu", weights_only=True)
+        except Exception as exc:
+            raise ModelValidationError(f"无法读取权重 {weights}: {exc}") from exc
+        _require(isinstance(state, dict), f"{weights} 不是 state_dict")
+        for key in ("skill_emb.weight", "skill_embedding.weight", "skills.weight"):
+            tensor = state.get(key)
+            if tensor is not None and getattr(tensor, "ndim", 0) == 2:
+                return int(tensor.shape[0])
+        raise ModelValidationError(
+            f"无法从 {weights} 推断词表大小（未找到 skill_emb.weight 等二维嵌入）；"
+            "请在配置里显式提供 n_skills"
+        )
+
+    def _validate_skill_map(self, n_skills: int) -> None:
+        if not self.skill_map:
+            return
+        illegal = {key: value for key, value in self.skill_map.items()
+                   if not 0 <= value < n_skills}
+        _require(
+            not illegal,
+            f"skill_map 中存在超出词表范围 0..{n_skills - 1} 的密集 id: {illegal}",
+        )
 
     @staticmethod
     def _read_json(path: Path, *, required: bool) -> dict:

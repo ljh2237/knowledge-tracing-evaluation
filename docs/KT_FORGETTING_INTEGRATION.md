@@ -100,7 +100,7 @@ python scripts/build_kt_forgetting_vocab.py \
 | `data` | 否 | 覆盖 `metrics.json` 里记录的数据路径（跨机器迁移用） |
 | `backend` | 否 | `auto`（默认）/ `dkt` / `bkt`；`auto` 看目录里有没有 `bkt_params.json` |
 | `skill_map` | 否 | `{框架知识点标签: 模型密集 id}`；不提供时复用训练仓库的 `resolve_skill` 做解析 |
-| `n_skills` | 否 | 词表大小；**仅当实验目录没有 `meta.json` 时必填**（见 §4.2） |
+| `n_skills` | 否 | 词表大小；缺 `meta.json` 时默认从权重推断，填了则校验一致性（见 §4.2） |
 | `multi_skill_policy` | 否 | `error`（默认）/ `mean` / `first`，见 §6 |
 | `allow_order_only_time` | 否 | 默认 `false`，见 §2 |
 | `allow_untrained` | 否 | 默认 `false`；**仅用于没有权重时验证适配器通路**，启用后 `is_mock` 强制为 `true` |
@@ -152,11 +152,16 @@ python evaluate.py all --run-dir outputs/real_model \
 | --- | :-: | :-: | --- |
 | `v3_*`、`v4_*`（含 MOOCCube） | 有 | 有 | 直接加载，无需额外配置 |
 | `repro_v2_*` | 有 | 有 | 直接加载 |
-| `akt_*`、`dkt_*`、`synth_*`（v1/v2 期） | 有 | **无** | 必须同时提供 `skill_map` 与 `n_skills` |
+| `akt_*`、`dkt_*`、`synth_*`（v1/v2 期） | 有 | **无** | 必须提供 `skill_map`；`n_skills` 可省略 |
 
 后一类不是缺权重，而是缺**词表 sidecar**：模型结构可以按 `metrics.json` 的 `args`
 重建、权重可以加载，但没有 `meta.json` 就不知道原始 `skill_id` 对应哪个密集 id。
-适配器此时要求显式给出映射，而不是猜一个。错误信息会点名这两个字段。
+适配器此时要求显式给出映射，而不是猜一个。
+
+词表大小**不必手填**：适配器直接从权重里 `skill_emb.weight` 的形状读出
+（实测 `akt_forget_s2026` → 149，`synth_akt_forget_s2026` → 60）。
+如果配置里同时写了 `n_skills`，会与权重里的值比对，不一致直接报错——
+按配置猜词表大小一旦猜错，要么加载失败，要么更糟：形状恰好相同而语义错位。
 
 ## 5. 选哪个模型：优先中文线代（MOOCCube v4）
 
@@ -260,7 +265,18 @@ python main.py --model plugin \
 > 只反映「模型没有见过这份数据」，恰恰说明**合成数据不能用来评价模型**。
 > 要得到有意义的精度，必须换真实 held-out CSV。此夹具的唯一用途是验证接线。
 
-### 8.4 尚未完成
+### 8.4 AKT（真实权重，目录内没有 `meta.json`）
+
+`akt_forget_s2026` 只有 `model.pt` 与 `metrics.json`，用来验证 §4.2 的路径：
+
+| 项目 | 结果 |
+| --- | --- |
+| `model_name` | `kt-forgetting:akt:akt_forget_s2026` |
+| `is_mock` | **False** |
+| `n_skills` | 从权重推断为 **149** |
+| 间隔敏感性 | gap 0/1 天 → 0.9654，7/30 天 → 0.8203 |
+
+### 8.5 尚未完成
 
 - **真实 held-out 数据上的精度与遗忘有效性**：需要清洗后的 MOOCCube 作答 CSV（本机 `data/` 为空）。
 - **多知识点题目的聚合口径**：等训练组定义。

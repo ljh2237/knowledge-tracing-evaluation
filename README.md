@@ -9,7 +9,7 @@ python evaluate.py all --overwrite     # 一条命令跑完全部评估流程
 
 | 项目 | 实测结果 |
 | --- | --- |
-| 自动化测试 | **283 项通过 / 0 失败**（`python -m pytest -q`） |
+| 自动化测试 | **286 项通过 / 0 失败**（`python -m pytest -q`） |
 | 静态检查 | **通过**（`python -m ruff check .`） |
 | 集成验收 | **18 项全部通过**（`python scripts/acceptance_evaluation.py`） |
 | 生成图表 | **9 张** PNG，DPI 200 |
@@ -347,7 +347,7 @@ python evaluate.py metrics --help          # 每个子命令都有独立帮助
 ## 自动化测试与验收
 
 ```bash
-python -m pytest -q                      # 283 项通过
+python -m pytest -q                      # 286 项通过
 python -m ruff check .                   # 静态检查通过
 python scripts/acceptance_evaluation.py  # 18 项集成验收
 ```
@@ -467,6 +467,7 @@ python evaluate.py all --run-dir outputs/real_model \
 | --- | --- |
 | BKT | ✅ 真实 EM 拟合参数，`is_mock=False`，概率 0.284~0.766 |
 | DKT + 遗忘机制 | ✅ 真实权重，`is_mock=False`；间隔 0→365 天概率 0.8565→0.8422（单调不增） |
+| AKT + 遗忘机制 | ✅ 真实权重，`is_mock=False`；目录无 `meta.json`，词表大小从权重推断为 149 |
 | MOOCCube 中文线代 DKT | ✅ 端到端跑通，22 个中文章节词表，`evaluate.py all` 六步无跳过 |
 
 模块一的图谱是中文线性代数，而 ASSISTments（英文初中代数）与 EdNet（英语）题目域对不上。
@@ -510,7 +511,7 @@ knowledge_tracing_test/
 ├── io_utils.py                 # 鲁凯宁：原子写出与指纹
 ├── dataset_converters.py       # 鲁凯宁：ASSISTments / EdNet 转换器
 │
-├── tests/                      # 283 项自动化测试（含 kt-forgetting 适配 36 项）
+├── tests/                      # 286 项自动化测试（含 kt-forgetting 适配 39 项）
 ├── docs/                       # 全部设计、接口、指标与交付文档
 ├── scripts/                    # 环境安装、验收、打包、kt-forgetting 词表生成
 ├── evidence/                   # 验收证据（含 evidence/evaluation/）

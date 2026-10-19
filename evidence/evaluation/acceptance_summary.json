@@ -147,11 +147,11 @@
   },
   "fingerprints": {
     "metrics/metrics.csv": "d329c4ef4b57fcc9c57d3c52c8a9a267d97f2186ac1efbb308b13cc733fc46ef",
-    "comparison/model_comparison.json": "3b619ef399720801f81bc67b8e5aa1a2e751b4f9cfcee8922b2f5b040c8d75c2",
-    "forgetting/forgetting_summary.json": "e408c9579e93ff8f2e29b2557fef01cdd134af924b62360f9aec501e4a9d1e39",
-    "performance/performance.json": "f4f0c36b0029865dcd88cee299dfda3bd89542f9779236bf5464179ed94823bc",
-    "plots/plots_manifest.json": "7e3f76cf0bd0abe094d66458ac4ced3090684a395c063f80319f2d50d68718ca",
-    "reports/evaluation_report.md": "4f6ae3858fce6092c9df1bfbe71d13b03a8899dfcee7fe724a86d4ced413f43c",
-    "junit.xml": "20876299c96895fa4a79943ec83906205b8a02722c9d74b41895616580227157"
+    "comparison/model_comparison.json": "c81a24065b10dfdcc982298011004711b7c1f9435131abc69dc3e4ce1ca5379c",
+    "forgetting/forgetting_summary.json": "012222bd72075116412543e9e548e5d69e9bdfa3854743be94c50cde1041ee9d",
+    "performance/performance.json": "e5e9dc6e9bdd6b1643f8ca3fa390b744ff08e10b1667710aed81f479ab17a8a8",
+    "plots/plots_manifest.json": "800bd33d519160db95f187f9b9519eedb4f3812f91856345a7cf07e73d802308",
+    "reports/evaluation_report.md": "c042bd2b7a9bfe410f0fd3bee22018f8f4cbdff871c0ff005e4ed0c4fb3bf98c",
+    "junit.xml": "f5605afeade562e265c08927c4327c4a2f2522b9acbb4f8d13751dd7b347a030"
   }
 }
